@@ -23,34 +23,40 @@ void CoordRead::readFile(std::string fileName)
         Vertex vertex;
         std::string line;
         std::string x, y, z;
-        std::string keyString = ",";
+        std::string keyString = " ";
         std::string keyString2 = "123456789.";
 
-        in >> line;
-        std::string::size_type tempFind = line.find(keyString);
+        in >> x;
+        in >> y;
+        in >> z;
 
-        if (tempFind != std::string::npos)
-        {
-            x = line.substr(0, tempFind);
-            line.erase(0, x.length() + 1);
+//        in >> line;
 
-            y = line.substr(0, tempFind);
-            line.erase(0, y.length() + 1);
+//        std::string::size_type tempFind = line.find(keyString);
+
+//        if (tempFind != std::string::npos)
+//        {
+//            x = line.substr(0, tempFind);
+//            line.erase(0, x.length() + 1);
+
+//            y = line.substr(0, tempFind);
+//            line.erase(0, y.length() + 1);
 
 //            z = line.substr(0, tempFind);
 //            line.erase(0, z.length() + 1);
-        }
 
-        std::string::size_type tempFind2 = line.find(keyString2);
+//    //        std::string::size_type tempFind2 = line.find(keyString2);
 
-        if (tempFind2 == std::string::npos)
-        {
-            z = line.substr(0, tempFind);
-            line.erase(0, z.length() + 1);
-        }
+//    //        if (tempFind2 == std::string::npos)
+//    //        {
+//    //            z = line.substr(0, tempFind);
+//    //            line.erase(0, z.length() + 1);
+//    //        }
 
+//        }
         std::cout << "x: " << x << " y: " << y << " z: " << z << "\n";
-        std::cout << "line: " << line << "\n";
+//        std::cout << "line: " << line << "\n";
+        in.close();
 
         //       linstd::getline
 
@@ -68,14 +74,13 @@ void CoordRead::readFile(std::string fileName)
         //           in >> currentIndex;
         //           mIndices.push_back(currentIndex);
         //       }
-
-        in.close();
     }
     else
     {
         std::cout << "Failed to read file.\n";
     }
 }
+
 
 void CoordRead::init(GLint matrixUniform)
 {
