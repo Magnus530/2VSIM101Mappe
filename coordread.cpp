@@ -18,21 +18,38 @@ void CoordRead::readFile(std::string fileName)
 
     if (in.is_open())
     {
+        std::cout << "The file: " << fileName << " is being read.\n";
+
         Vertex vertex;
         std::string line;
         std::string x, y, z;
-
-        std::cout << "The file: " << fileName << " is being read.\n";
-
+        std::string keyString = ",";
+        std::string keyString2 = "123456789.";
 
         in >> line;
-        std::size_t tempFind = line.find_first_not_of(",");
+        std::string::size_type tempFind = line.find(keyString);
 
         if (tempFind != std::string::npos)
         {
-            line += line[tempFind];
+            x = line.substr(0, tempFind);
+            line.erase(0, x.length() + 1);
+
+            y = line.substr(0, tempFind);
+            line.erase(0, y.length() + 1);
+
+//            z = line.substr(0, tempFind);
+//            line.erase(0, z.length() + 1);
         }
 
+        std::string::size_type tempFind2 = line.find(keyString2);
+
+        if (tempFind2 == std::string::npos)
+        {
+            z = line.substr(0, tempFind);
+            line.erase(0, z.length() + 1);
+        }
+
+        std::cout << "x: " << x << " y: " << y << " z: " << z << "\n";
         std::cout << "line: " << line << "\n";
 
         //       linstd::getline
