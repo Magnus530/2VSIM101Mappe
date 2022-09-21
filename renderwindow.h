@@ -113,6 +113,8 @@ private:
     void staticCollision(VisualObject* vPtr1, VisualObject* vPtr2);
     void houseCollision(VisualObject* vPtr1, VisualObject* vPtr2, bool isOpen);
     void spawnBall();
+    void spawnRain();
+    QVector2D GetRandomPosXZ();
 
 
     void UpdatePhysics();

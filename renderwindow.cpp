@@ -15,6 +15,7 @@ A for loop in the reset function is inspired by code from: https://stackoverflow
 #include <QStatusBar>
 #include <QDebug>
 
+
 #include "mainwindow.h"
 #include "logger.h"
 
@@ -1021,6 +1022,27 @@ Oppgave 16*/
                             mGBalls.push_back(gravPtr);
                         }
 
+                        void RenderWindow::spawnRain()
+                        {
+                            std::string rainName = BallNameGenerator(mGBalls);
+                            QVector2D rainPosXZ = GetRandomPosXZ();
+                            GravitasjonsBall* gravPtr = new GravitasjonsBall(2,{rainPosXZ.x(),30,rainPosXZ.y()});
+                            mMap.insert(std::pair<std::string, VisualObject*>{rainName,gravPtr});
+                            mQuadTree.insert(mMap[rainName]->getPosition2D(), rainName, mMap[rainName]);
+                            mMap[rainName]->init(mMMatrixUniform0);
+                            mGBalls.push_back(gravPtr);
+
+                        }
+
+                        QVector2D RenderWindow::GetRandomPosXZ()
+                        {
+                            QVector2D randomPosXZ;
+                            randomPosXZ.setX(Randomize(0,100));
+                            randomPosXZ.setY(Randomize(0,100));
+                            return(randomPosXZ);
+
+                        }
+
                         void RenderWindow::UpdatePhysics()
                         {
                             Triangles* tri = static_cast<Triangles*>(mMap["Triangles"]);
@@ -1255,7 +1277,7 @@ Oppgave 16*/
 
                             if(event->key() == Qt::Key_F)
                             {
-                                spawnBall();
+                                spawnRain();
                             }
                             if(event->key() == Qt::Key_T)
                             {
