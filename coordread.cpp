@@ -25,13 +25,12 @@ void CoordRead::readFile(std::string fileName)
         std::cout << "The file: " << fileName << " is being read.\n";
 
 
-
         in >> line;
-        std::size_t = tempFind = line.find_first_not_of(" ,");
+        std::size_t tempFind = line.find_first_not_of(",");
 
         if (tempFind != std::string::npos)
         {
-            line = line[tempFind];
+            line += line[tempFind];
         }
 
         std::cout << "line: " << line << "\n";
@@ -110,7 +109,3 @@ void CoordRead::draw()
 //    else
     glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, nullptr);
 }
-
-mMap.insert(std::pair<std::string, VisualObject*>{"land", new CoordRead("../2VSIM101Mappe/lake.txt", mShaderProgram[0]->getProgram(),
-                                                  mTexture[0]->id())});
-
