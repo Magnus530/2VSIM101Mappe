@@ -49,6 +49,7 @@
 #include "VisSim/collision.h"
 #include "VisSim/gravitasjonsball.h"
 #include "debug.h"
+#include "coordread.h"
 
 class QOpenGLContext;
 class Shader;

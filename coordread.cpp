@@ -3,8 +3,10 @@
 CoordRead::CoordRead()
 {}
 
-CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id)
+CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3D mP)
 {
+    setPos(mP);
+
     mShaderNum = shaderNum;
     mTexId = id;
 
@@ -20,67 +22,54 @@ void CoordRead::readFile(std::string fileName)
     {
         std::cout << "The file: " << fileName << " is being read.\n";
 
-        Vertex vertex;
-        std::string line;
         std::string x, y, z;
-        std::string keyString = " ";
-        std::string keyString2 = "123456789.";
+        std::vector<float> xCoords;
+        std::vector<float> yCoords;
+        std::vector<float> zCoords;
 
-        in >> x;
-        in >> y;
-        in >> z;
+        while(!in.eof())
+        {
+            in >> x;
+            in >> y;
+            in >> z;
 
-//        in >> line;
+            float tempX = std::stof(x);
+            float tempY = std::stof(y);
+            float tempZ = std::stof(z);
 
-//        std::string::size_type tempFind = line.find(keyString);
+            xCoords.push_back(tempX);
+            yCoords.push_back(tempY);
+            zCoords.push_back(tempZ);
 
-//        if (tempFind != std::string::npos)
-//        {
-//            x = line.substr(0, tempFind);
-//            line.erase(0, x.length() + 1);
+//            std::cout << "tempx: " << tempX << " tempy: " << tempY << " tempz: " << tempZ << "\n";
+//            std::cout << "x: " << x << " y: " << y << " z: " << z << "\n";
+        }
 
-//            y = line.substr(0, tempFind);
-//            line.erase(0, y.length() + 1);
+        float xMin = *min_element(xCoords.begin(), xCoords.end());
+        float yMin = *min_element(yCoords.begin(), yCoords.end());
+        float zMin = *min_element(zCoords.begin(), zCoords.end());
 
-//            z = line.substr(0, tempFind);
-//            line.erase(0, z.length() + 1);
+        int fraction = 8;
 
-//    //        std::string::size_type tempFind2 = line.find(keyString2);
+        for (int i = 0; i < xCoords.size(); i++)
+        {
+            xCoords[i] -= xMin;
+            yCoords[i] -= yMin;
+            zCoords[i] -= zMin;
 
-//    //        if (tempFind2 == std::string::npos)
-//    //        {
-//    //            z = line.substr(0, tempFind);
-//    //            line.erase(0, z.length() + 1);
-//    //        }
+            mVertices.push_back(Vertex{xCoords[i] / fraction, zCoords[i] / fraction, yCoords[i] / fraction, 1, 1, 1, 0, 0});
+//            mIndices.push_back(i);
 
-//        }
-        std::cout << "x: " << x << " y: " << y << " z: " << z << "\n";
-//        std::cout << "line: " << line << "\n";
+//            std::cout << "xyz: " << mVertices[i].getVertexXYZ().x << "\n";
+        }
+
         in.close();
-
-        //       linstd::getline
-
-        //           mVertices.reserve(vertexNum);
-        //       for (int i=0; i< ; i++)
-        //       {
-        //            in >> vertex;
-        //            mVertices.push_back(vertex);
-        //       }
-
-        //    //           tempIndices.reserve(indexNum);
-        //       int currentIndex = 0;
-        //       for (int i = 0; i < indexNum; i++)
-        //       {
-        //           in >> currentIndex;
-        //           mIndices.push_back(currentIndex);
-        //       }
     }
     else
     {
         std::cout << "Failed to read file.\n";
     }
 }
-
 
 void CoordRead::init(GLint matrixUniform)
 {
@@ -123,11 +112,9 @@ void CoordRead::init(GLint matrixUniform)
 
 void CoordRead::draw()
 {
+    initializeOpenGLFunctions();
     glBindVertexArray( mVAO );
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
-
-//    if(b_FlatShading == true)
-//        glDrawArrays(GL_TRIANGLES, 0, mVertices.size());
-//    else
-    glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, nullptr);
+    glDrawArrays(GL_POINTS, 0, mVertices.size());
+//    glDrawElements(GL_POINT, mIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));
 }

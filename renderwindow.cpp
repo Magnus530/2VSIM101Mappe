@@ -109,6 +109,9 @@ void RenderWindow::init()
     mMap.insert(std::pair<std::string, VisualObject*>{"gamemode", new GameMode{}});
     mMap.insert(std::pair<std::string, VisualObject*>{"Triangles", new Triangles("../2VSIM101Mappe/Triangles.txt", mShaderProgram[0]->getProgram(),
                                                       mTexture[0]->id())});
+    mMap.insert(std::pair<std::string, VisualObject*>{"coordread", new CoordRead("../2VSIM101Mappe/test.txt", mShaderProgram[0]->getProgram(),
+                                                      mTexture[0]->id(), QVector3D{0,0,0})});
+
     for (auto it = mMap.begin(); it != mMap.end(); it++)
     {
         mQuadTree.insert((*it).second->getPosition2D(), (*it).first, (*it).second);

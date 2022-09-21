@@ -3,12 +3,13 @@
 
 #include "visualobject.h"
 #include <cstddef>
+#include <algorithm>
 
 class CoordRead : public VisualObject
 {
 public:
     CoordRead();
-    CoordRead(std::string fileName, GLuint shaderNum, GLuint id);
+    CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3D mP);
 
     void readFile(std::string fileName);
     void init(GLint matrixUniform) override;
