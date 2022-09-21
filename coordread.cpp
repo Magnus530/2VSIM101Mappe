@@ -3,6 +3,14 @@
 CoordRead::CoordRead()
 {}
 
+CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id)
+{
+    mShaderNum = shaderNum;
+    mTexId = id;
+
+    readFile(fileName);
+}
+
 void CoordRead::readFile(std::string fileName)
 {
     std::ifstream in;
@@ -10,33 +18,46 @@ void CoordRead::readFile(std::string fileName)
 
     if (in.is_open())
     {
-       std::cout << "The file: " << fileName << " is being read.\n";
+        Vertex vertex;
+        std::string line;
+        std::string x, y, z;
 
-       Vertex vertex;
-       std::string line;
+        std::cout << "The file: " << fileName << " is being read.\n";
 
-//       linstd::getline
 
-    //           mVertices.reserve(vertexNum);
-//       for (int i=0; i< ; i++)
-//       {
-//            in >> vertex;
-//            mVertices.push_back(vertex);
-//       }
 
-//    //           tempIndices.reserve(indexNum);
-//       int currentIndex = 0;
-//       for (int i = 0; i < indexNum; i++)
-//       {
-//           in >> currentIndex;
-//           mIndices.push_back(currentIndex);
-//       }
+        in >> line;
+        std::size_t = tempFind = line.find_first_not_of(" ,");
 
-       in.close();
+        if (tempFind != std::string::npos)
+        {
+            line = line[tempFind];
+        }
+
+        std::cout << "line: " << line << "\n";
+
+        //       linstd::getline
+
+        //           mVertices.reserve(vertexNum);
+        //       for (int i=0; i< ; i++)
+        //       {
+        //            in >> vertex;
+        //            mVertices.push_back(vertex);
+        //       }
+
+        //    //           tempIndices.reserve(indexNum);
+        //       int currentIndex = 0;
+        //       for (int i = 0; i < indexNum; i++)
+        //       {
+        //           in >> currentIndex;
+        //           mIndices.push_back(currentIndex);
+        //       }
+
+        in.close();
     }
     else
     {
-       std::cout << "Failed to read file.\n";
+        std::cout << "Failed to read file.\n";
     }
 }
 
@@ -89,3 +110,7 @@ void CoordRead::draw()
 //    else
     glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, nullptr);
 }
+
+mMap.insert(std::pair<std::string, VisualObject*>{"land", new CoordRead("../2VSIM101Mappe/lake.txt", mShaderProgram[0]->getProgram(),
+                                                  mTexture[0]->id())});
+
