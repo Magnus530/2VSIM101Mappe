@@ -68,10 +68,10 @@ void RenderWindow::init()
     //    glEnable(GL_CULL_FACE);       //draws only front side of models - usually what you want - test it out!
     glClearColor(0.4f, 0.4f, 0.4f, 1.0f);    //gray color used in glClear GL_COLOR_BUFFER_BIT
 
-    mShaderProgram[0] = new Shader("../2VSIM101/plainshader.vert", "../2VSIM101/plainshader.frag");
-    mShaderProgram[1] = new Shader ("../2VSIM101/textureshader.vert", "../2VSIM101/textureshader.frag");
-    mShaderProgram[2] = new Shader("../2VSIM101/phongshader.vert", "../2VSIM101/phongshader.frag");
-    mShaderProgram[3] = new Shader("../2VSIM101/skybox.vert", "../2VSIM101/skybox.frag");
+    mShaderProgram[0] = new Shader("../2VSIM101Mappe/plainshader.vert", "../2VSIM101Mappe/plainshader.frag");
+    mShaderProgram[1] = new Shader ("../2VSIM101Mappe/textureshader.vert", "../2VSIM101Mappe/textureshader.frag");
+    mShaderProgram[2] = new Shader("../2VSIM101Mappe/phongshader.vert", "../2VSIM101Mappe/phongshader.frag");
+    mShaderProgram[3] = new Shader("../2VSIM101MappeMappe/skybox.vert", "../2VSIM101Mappe/skybox.frag");
 
     mLogger->logText("The active GPU and API:", LogType::HIGHLIGHT);
     std::string tempString;
@@ -90,9 +90,9 @@ void RenderWindow::init()
     //    setupSkyboxShader(3);
 
     mTexture[0] = new Texture();
-    mTexture[1] = new Texture("../2VSIM101/textures/grass2.bmp");
-    mTexture[2] = new Texture("../2VSIM101/textures/hund.bmp");
-    mTexture[3] = new Texture("../2VSIM101/textures/flower.bmp");
+    mTexture[1] = new Texture("../2VSIM101Mappe/textures/grass2.bmp");
+    mTexture[2] = new Texture("../2VSIM101Mappe/textures/hund.bmp");
+    mTexture[3] = new Texture("../2VSIM101Mappe/textures/flower.bmp");
 
     gsml::Point2D a{-4, -4}, b{4, -4}, c{4, 4}, d{-4, 4};
     mQuadTree.init(a, b, c, d);
@@ -107,7 +107,7 @@ void RenderWindow::init()
         mMap.insert(std::pair<std::string, VisualObject*>{"xyz", new XYZ{mShaderProgram[0]->getProgram(), mTexture[0]->id()}});
     }
     mMap.insert(std::pair<std::string, VisualObject*>{"gamemode", new GameMode{}});
-    mMap.insert(std::pair<std::string, VisualObject*>{"Triangles", new Triangles("../2VSIM101/Triangles.txt", mShaderProgram[0]->getProgram(),
+    mMap.insert(std::pair<std::string, VisualObject*>{"Triangles", new Triangles("../2VSIM101Mappe/Triangles.txt", mShaderProgram[0]->getProgram(),
                                                       mTexture[0]->id())});
     for (auto it = mMap.begin(); it != mMap.end(); it++)
     {

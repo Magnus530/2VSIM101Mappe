@@ -6,95 +6,95 @@ CONFIG      += c++17
 TARGET      = 3D-programmering
 
 SOURCES += main.cpp \
-    beziercurve.cpp \
-    billboard.cpp \
-    boundingbox.cpp \
+    3DProg/beziercurve.cpp \
+    3DProg/billboard.cpp \
+    3DProg/boundingbox.cpp \
     camera.cpp \
-    collision.cpp \
+    VisSim/collision.cpp \
     coordread.cpp \
-    cube.cpp \
+    3DProg/cube.cpp \
     debug.cpp \
-    disc.cpp \
-    door.cpp \
-    extentbox.cpp \
-    gamemode.cpp \
-    graph.cpp \
-    gravitasjonsball.cpp \
-    house.cpp \
-    interactiveobject.cpp \
+    3DProg/disc.cpp \
+    3DProg/door.cpp \
+    3DProg/extentbox.cpp \
+    3DProg/gamemode.cpp \
+    3DProg/graph.cpp \
+    VisSim/gravitasjonsball.cpp \
+    3DProg/house.cpp \
+    3DProg/interactiveobject.cpp \
     light.cpp \
-    lissajous.cpp \
+    3DProg/lissajous.cpp \
     logger.cpp \
     mainwindow.cpp \
     matrix4x4.cpp \
-    npc.cpp \
-    objloader.cpp \
-    octahedronball.cpp \
-    plane.cpp \
-    player.cpp \
+    3DProg/npc.cpp \
+    VisSim/objloader.cpp \
+    VisSim/octahedronball.cpp \
+    3DProg/plane.cpp \
+    3DProg/player.cpp \
     renderwindow.cpp \
     shader.cpp \
-    skybox.cpp \
+    3DProg/skybox.cpp \
     stb_image/stb_image.cpp \
-    terrain.cpp \
-    tetrahedron.cpp \
+    3DProg/terrain.cpp \
+    3DProg/tetrahedron.cpp \
     texture.cpp \
-    triangles.cpp \
-    trianglesurface.cpp \
-    trophy.cpp \
+    VisSim/triangles.cpp \
+    3DProg/trianglesurface.cpp \
+    3DProg/trophy.cpp \
     vector3d.cpp \
     vector4d.cpp \
     vertex.cpp \
-    visualleastsquaresmethod.cpp \
+    3DProg/visualleastsquaresmethod.cpp \
     visualobject.cpp \
-    xyz.cpp
+    VisSim/xyz.cpp
 
 HEADERS += \
     Input.h \
     Toolbox.h \
-    beziercurve.h \
-    billboard.h \
-    boundingbox.h \
+    3DProg/beziercurve.h \
+    3DProg/billboard.h \
+    3DProg/boundingbox.h \
     camera.h \
-    collision.h \
+    VisSim/collision.h \
     coordread.h \
-    cube.h \
+    3DProg/cube.h \
     debug.h \
-    disc.h \
-    door.h \
-    extentbox.h \
-    gamemode.h \
-    graph.h \
-    gravitasjonsball.h \
-    house.h \
-    interactiveobject.h \
+    3DProg/disc.h \
+    3DProg/door.h \
+    3DProg/extentbox.h \
+    3DProg/gamemode.h \
+    3DProg/graph.h \
+    VisSim/gravitasjonsball.h \
+    3DProg/house.h \
+    3DProg/interactiveobject.h \
     light.h \
-    lissajous.h \
+    3DProg/lissajous.h \
     logger.h \
     mainwindow.h \
     matrix4x4.h \
-    npc.h \
-    objloader.h \
-    octahedronball.h \
-    plane.h \
-    player.h \
+    3DProg/npc.h \
+    VisSim/objloader.h \
+    VisSim/octahedronball.h \
+    3DProg/plane.h \
+    3DProg/player.h \
     quadtree.h \
     renderwindow.h \
     shader.h \
-    skybox.h \
+    3DProg/skybox.h \
     stb_image/stb_image.h \
-    terrain.h \
-    tetrahedron.h \
+    3DProg/terrain.h \
+    3DProg/tetrahedron.h \
     texture.h \
-    triangles.h \
-    trianglesurface.h \
-    trophy.h \
+    VisSim/triangles.h \
+    3DProg/trianglesurface.h \
+    3DProg/trophy.h \
     vector3d.h \
     vector4d.h \
     vertex.h \
-    visualleastsquaresmethod.h \
+    3DProg/visualleastsquaresmethod.h \
     visualobject.h \
-    xyz.h
+    VisSim/xyz.h
 
     # external libs
     glm/glm.hpp
