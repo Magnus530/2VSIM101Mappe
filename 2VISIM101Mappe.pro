@@ -11,7 +11,7 @@ SOURCES += main.cpp \
     3DProg/boundingbox.cpp \
     camera.cpp \
     VisSim/collision.cpp \
-    3DProg/coordread.cpp \
+    coordread.cpp \
     3DProg/cube.cpp \
     debug.cpp \
     3DProg/disc.cpp \
@@ -57,7 +57,7 @@ HEADERS += \
     3DProg/boundingbox.h \
     camera.h \
     VisSim/collision.h \
-    3DProg/coordread.h \
+    coordread.h \
     3DProg/cube.h \
     debug.h \
     3DProg/disc.h \
