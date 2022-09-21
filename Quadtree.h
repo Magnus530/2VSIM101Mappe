@@ -6,8 +6,8 @@
 #include <list>
 #include <string>
 #include <iterator>
-#include "trophy.h"
-#include "gamemode.h"
+#include "3DProg/trophy.h"
+#include "3DProg/gamemode.h"
 #include "renderwindow.h"
 #include "visualobject.h"
 
