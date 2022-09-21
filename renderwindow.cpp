@@ -142,7 +142,6 @@ void RenderWindow::init()
         mQuadTree.insert((*it).second->getPosition2D(), (*it).first, (*it).second);
     }
 
-    // Oppgave 5 a og b.
     mCamera = new Camera();
     //    mCamera2 = new Camera();
     //    mCamera2->init(mPMatrixUniform0, mVMatrixUniform0);

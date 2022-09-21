@@ -11,6 +11,7 @@ SOURCES += main.cpp \
     boundingbox.cpp \
     camera.cpp \
     collision.cpp \
+    coordread.cpp \
     cube.cpp \
     debug.cpp \
     disc.cpp \
@@ -56,6 +57,7 @@ HEADERS += \
     boundingbox.h \
     camera.h \
     collision.h \
+    coordread.h \
     cube.h \
     debug.h \
     disc.h \
