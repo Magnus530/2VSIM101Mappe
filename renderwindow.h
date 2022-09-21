@@ -80,6 +80,7 @@ public:
     void defeatCondition();
     // Oppgave 6 og 13
     bool inDebug = true;
+    bool bRainIsOn{false};
 
     void DrawDebugPoint(std::string name, glm::vec3 pt);
     static RenderWindow* Get();
@@ -115,6 +116,7 @@ private:
     void spawnBall();
     void spawnRain();
     QVector2D GetRandomPosXZ();
+
 
 
     void UpdatePhysics();

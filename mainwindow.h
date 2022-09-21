@@ -31,6 +31,8 @@ private slots:
 
     void on_debugButton_toggled(bool checked);
 
+    void on_task3Button_clicked();
+
 private:
     ///called from the constructor. Initializes different parts of the program.
     void init();
