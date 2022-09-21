@@ -107,9 +107,9 @@ void RenderWindow::init()
         mMap.insert(std::pair<std::string, VisualObject*>{"xyz", new XYZ{mShaderProgram[0]->getProgram(), mTexture[0]->id()}});
     }
     mMap.insert(std::pair<std::string, VisualObject*>{"gamemode", new GameMode{}});
-    mMap.insert(std::pair<std::string, VisualObject*>{"Triangles", new Triangles("../2VSIM101Mappe/Triangles.txt", mShaderProgram[0]->getProgram(),
-                                                      mTexture[0]->id())});
-    mMap.insert(std::pair<std::string, VisualObject*>{"coordread", new CoordRead("../2VSIM101Mappe/test.txt", mShaderProgram[0]->getProgram(),
+//    mMap.insert(std::pair<std::string, VisualObject*>{"Triangles", new Triangles("../2VSIM101Mappe/Triangles.txt", mShaderProgram[0]->getProgram(),
+//                                                      mTexture[0]->id())});
+    mMap.insert(std::pair<std::string, VisualObject*>{"coordread", new CoordRead("../2VSIM101Mappe/Steian_1.txt", mShaderProgram[0]->getProgram(),
                                                       mTexture[0]->id(), QVector3D{0,0,0})});
 
     for (auto it = mMap.begin(); it != mMap.end(); it++)
@@ -735,15 +735,18 @@ QVector2D RenderWindow::GetRandomPosXZ()
 }
 void RenderWindow::UpdatePhysics()
 {
-    Triangles* tri = static_cast<Triangles*>(mMap["Triangles"]);
-    for (int i = 0; i < mGBalls.size(); i++)
+    if(auto it = mMap.find("Triangles"); it != mMap.end())
     {
-        for (int j = 0; j < tri->mTriangles.size(); j++)
+        Triangles* tri = static_cast<Triangles*>(mMap["Triangles"]);
+        for (int i = 0; i < mGBalls.size(); i++)
         {
-            Contact contact;
-            if(collision->intersect(mGBalls[i], &tri->mTriangles[j], contact) == true)
+            for (int j = 0; j < tri->mTriangles.size(); j++)
             {
-                ResolveContact(contact);
+                Contact contact;
+                if(collision->intersect(mGBalls[i], &tri->mTriangles[j], contact) == true)
+                {
+                    ResolveContact(contact);
+                }
             }
         }
     }

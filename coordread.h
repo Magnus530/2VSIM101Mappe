@@ -7,6 +7,9 @@
 
 class CoordRead : public VisualObject
 {
+private:
+    int mScale = 4;
+
 public:
     CoordRead();
     CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3D mP);

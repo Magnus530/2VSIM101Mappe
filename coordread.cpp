@@ -23,15 +23,13 @@ void CoordRead::readFile(std::string fileName)
         std::cout << "The file: " << fileName << " is being read.\n";
 
         std::string x, y, z;
-        std::vector<float> xCoords;
-        std::vector<float> yCoords;
-        std::vector<float> zCoords;
+        std::vector<float> xCoords, yCoords, zCoords;
 
         while(!in.eof())
         {
             in >> x;
-            in >> y;
             in >> z;
+            in >> y;
 
             float tempX = std::stof(x);
             float tempY = std::stof(y);
@@ -49,15 +47,13 @@ void CoordRead::readFile(std::string fileName)
         float yMin = *min_element(yCoords.begin(), yCoords.end());
         float zMin = *min_element(zCoords.begin(), zCoords.end());
 
-        int fraction = 8;
-
         for (int i = 0; i < xCoords.size(); i++)
         {
             xCoords[i] -= xMin;
             yCoords[i] -= yMin;
             zCoords[i] -= zMin;
 
-            mVertices.push_back(Vertex{xCoords[i] / fraction, zCoords[i] / fraction, yCoords[i] / fraction, 1, 1, 1, 0, 0});
+            mVertices.push_back(Vertex{xCoords[i] / mScale, yCoords[i] / mScale, zCoords[i] / mScale, 1, 1, 1, 0, 0});
 //            mIndices.push_back(i);
 
 //            std::cout << "xyz: " << mVertices[i].getVertexXYZ().x << "\n";
