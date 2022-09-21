@@ -113,3 +113,16 @@ void MainWindow::on_debugButton_toggled(bool checked)
     mRenderWindow->setDebugMode();
 }
 
+
+void MainWindow::on_task3Button_clicked()
+{
+
+    if(mRenderWindow->bRainIsOn)
+        mRenderWindow->bRainIsOn=false;
+    else
+        mRenderWindow->bRainIsOn=true;
+
+
+
+}
+
