@@ -68,7 +68,7 @@ void RenderWindow::init()
     //    glEnable(GL_CULL_FACE);       //draws only front side of models - usually what you want - test it out!
     glClearColor(0.4f, 0.4f, 0.4f, 1.0f);    //gray color used in glClear GL_COLOR_BUFFER_BIT
 
-    mShaderProgram[0] = new Shader("../2VSOM101Mappe/plainshader.vert", "../2VSIM101Mappe/plainshader.frag");
+    mShaderProgram[0] = new Shader("../2VSIM101Mappe/plainshader.vert", "../2VSIM101Mappe/plainshader.frag");
     mShaderProgram[1] = new Shader ("../2VSIM101Mappe/textureshader.vert", "../2VSIM101Mappe/textureshader.frag");
     mShaderProgram[2] = new Shader("../2VSIM101Mappe/phongshader.vert", "../2VSIM101Mappe/phongshader.frag");
     mShaderProgram[3] = new Shader("../2VSIM101MappeMappe/skybox.vert", "../2VSIM101Mappe/skybox.frag");
