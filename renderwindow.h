@@ -78,7 +78,6 @@ public:
     bool wFrame = false;
     void winCondition();
     void defeatCondition();
-    // Oppgave 6 og 13
     bool inDebug = true;
     bool bRainIsOn{false};
 
@@ -96,7 +95,7 @@ private:
     Collision* collision;
     Contact* hit;
 
-    // Oppgave 7
+
     bool bHit = false;
     bool bNpcHit = false;
     float bCounter = 0;
@@ -127,15 +126,10 @@ private:
     std::unordered_map<int, bool> mKeyInputMap;
     std::unordered_map<int, bool> mMouseInputMap;
     std::vector<VisualObject*> mObjects;
-    // Oppgave 8 og 9
     std::vector<Trophy*> mTrophies;
     std::vector<Trophy*> mBTrophies;
-    // Oppgave 7
     std::vector<Cube*> mBombs;
     gsml::QuadTree<std::string, VisualObject*> mQuadTree;
-
-    // Oppgave 3
-//    Light* mLight2{nullptr};
     ObjLoader* mLight{nullptr};
     Plane* mPlane{nullptr};
     Terrain* terrain{nullptr};
@@ -145,7 +139,6 @@ private:
     bool mInitialized{false};
 
 /********************************************* CAMERA *********************************************/
-    // Oppgave 5 a og b
     void setCameraSpeed(float value);
 
     Camera* mCamera{nullptr};
@@ -179,7 +172,6 @@ private:
     GLint mPMatrixUniform1{-1};
     GLint mTextureUniform1{-1};
 
-    // Oppgave 2 og oppgave 3
     void setupPhongShader(int shaderIndex);
     GLint  mPMatrixUniform2{-1};
     GLint  mVMatrixUniform2{-1};
@@ -190,10 +182,8 @@ private:
     GLint  mVMatrixUniform3{-1};
     GLint  mMMatrixUniform3{-1};
 
-    //skybox variables
     GLint mSkyboxUniform{-1};
 
-    //other light shader variables
     GLint mLightColorUniform{-1};
     GLint mObjectColorUniform{-1};
     GLint mAmbientLightStrengthUniform{-1};
