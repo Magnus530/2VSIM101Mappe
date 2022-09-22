@@ -99,9 +99,9 @@ void RenderWindow::init()
     collision = new Collision();
     hit = new Contact();
     mLight = new ObjLoader(QVector3D{0,20,0}, mShaderProgram[1]->getProgram(), mTexture[0]->id(),
-            "../Eksamen-3Dprog-2022/assets/sun.obj");
+            "../2VSIM101Mappe/assets/sun.obj");
     terrain = new Terrain(mShaderProgram[2]->getProgram(), mTexture[1]->id(),
-            "../Eksamen-3Dprog-2022/textures/terrain3.png");
+            "../2VSIM101Mappe/textures/terrain3.png");
     if(inDebug == true)
     {
         mMap.insert(std::pair<std::string, VisualObject*>{"xyz", new XYZ{mShaderProgram[0]->getProgram(), mTexture[0]->id()}});
@@ -110,7 +110,7 @@ void RenderWindow::init()
 //    mMap.insert(std::pair<std::string, VisualObject*>{"Triangles", new Triangles("../2VSIM101Mappe/Triangles.txt", mShaderProgram[0]->getProgram(),
 //                                                      mTexture[0]->id())});
     mMap.insert(std::pair<std::string, VisualObject*>{"coordread", new CoordRead("../2VSIM101Mappe/Steian_1.txt", mShaderProgram[0]->getProgram(),
-                                                      mTexture[0]->id(), QVector3D{0,0,0})});
+                                                        mTexture[0]->id(), QVector3D{0,0,0})});
 
     for (auto it = mMap.begin(); it != mMap.end(); it++)
     {

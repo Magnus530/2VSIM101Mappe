@@ -10,6 +10,7 @@
 #include "texture.h"
 #include "Toolbox.h"
 #include "camera.h"
+#include "logger.h"
 
 struct Triangle
 {
@@ -18,8 +19,6 @@ struct Triangle
     Vertex C;
 };
 
-class BoundingBox;
-
 class VisualObject : public QOpenGLFunctions_4_1_Core
 {
 protected:
@@ -27,7 +26,6 @@ protected:
     GLuint mTexId = 0;
 
     GLint mMMatrixUniform = 0;
-    BoundingBox* mBBox{nullptr};
 
     float mW = 0, mX = 0, mY = 0, mZ = 0;
 

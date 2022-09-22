@@ -11,6 +11,7 @@ CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3
     mTexId = id;
 
     readFile(fileName);
+    createGrid(5);
 }
 
 void CoordRead::readFile(std::string fileName)
@@ -31,9 +32,9 @@ void CoordRead::readFile(std::string fileName)
             in >> z;
             in >> y;
 
-            float tempX = std::stof(x);
-            float tempY = std::stof(y);
-            float tempZ = std::stof(z);
+            float tempX = std::stof(x) / mScale;
+            float tempY = std::stof(y) / mScale;
+            float tempZ = std::stof(z) / mScale;
 
             xCoords.push_back(tempX);
             yCoords.push_back(tempY);
@@ -43,9 +44,16 @@ void CoordRead::readFile(std::string fileName)
 //            std::cout << "x: " << x << " y: " << y << " z: " << z << "\n";
         }
 
-        float xMin = *min_element(xCoords.begin(), xCoords.end());
-        float yMin = *min_element(yCoords.begin(), yCoords.end());
-        float zMin = *min_element(zCoords.begin(), zCoords.end());
+        xMax = *max_element(xCoords.begin(), xCoords.end());
+        yMax = *max_element(yCoords.begin(), yCoords.end());
+        zMax = *max_element(zCoords.begin(), zCoords.end());
+
+        xMin = *min_element(xCoords.begin(), xCoords.end());
+        yMin = *min_element(yCoords.begin(), yCoords.end());
+        zMin = *min_element(zCoords.begin(), zCoords.end());
+
+//        std::cout << "xMax: " << xMax << " yMax: " << yMax << " zMax: " << zMax << "\n";
+//        std::cout << "xMin: " << xMin << " yMin: " << yMin << " zMin: " << zMin << "\n";
 
         for (int i = 0; i < xCoords.size(); i++)
         {
@@ -53,18 +61,135 @@ void CoordRead::readFile(std::string fileName)
             yCoords[i] -= yMin;
             zCoords[i] -= zMin;
 
-            mVertices.push_back(Vertex{xCoords[i] / mScale, yCoords[i] / mScale, zCoords[i] / mScale, 1, 1, 1, 0, 0});
+            mVertices.push_back(Vertex{xCoords[i], yCoords[i], zCoords[i], 1, 1, 1, 0, 0});
 //            mIndices.push_back(i);
 
 //            std::cout << "xyz: " << mVertices[i].getVertexXYZ().x << "\n";
         }
-
         in.close();
     }
     else
     {
         std::cout << "Failed to read file.\n";
     }
+}
+
+void CoordRead::createGrid(float step)
+{
+    int xLength = 0;
+    int zWidth = 0;
+
+    for (int i = zMin; i < zMax; i += step)
+    {
+        for (int j = xMin; j < xMax; j += step)
+        {
+            gridPoints.push_back(glm::vec3{j, 0, i});
+        }
+    }
+
+//    std::cout << "gridpoint size: " << gridPoints.size() << "\n";
+//    std::cout << "point one: " << gridPoints[0].x << " " << gridPoints[0].y << " " << gridPoints[0].z << "\n";
+//    std::cout << "point two: " << gridPoints[1].x << " " << gridPoints[1].y << " " << gridPoints[1].z << "\n";
+//    std::cout << "point nine: " << gridPoints[8].x << " " << gridPoints[8].y << " " << gridPoints[8].z << "\n";
+
+    xLength = (int) (xMax - xMin) / step + 1;
+    zWidth = (int) (zMax - zMin) / step + 1;
+
+    if(gridPoints.size() > 0)
+    {
+        triangulate(gridPoints, xLength, zWidth);
+    }
+    else
+    {
+        mLog->logText("Failed to create gridpoints.\n", LogType::REALERROR);
+    }
+
+}
+
+void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, float length, float width)
+{
+//    std::cout << "length: " << length << " width: " << width << "\n";
+
+    int k = 0;
+    for (int i = 0; i < width; i++)
+    {
+        for (int j = 0; j < length; j++)
+        {
+//            std::cout << "v1: " << 1 + j + i * length << "\n";
+//            std::cout << "v2: " << j + i * length + length << "\n";
+
+            mapTriangle mapTri;
+            mapTri.name = nameGen(mTriangles);
+            mapTri.id = mTriangles.size();
+
+            if (j < length - 2 && k < gridPoints.size() - length - 1)
+            {
+                mapTri.v0 = gridPoints[k];
+//                std::cout << "v0 xyz: " << mapTri.v0.x << " " << mapTri.v0.y << " " << mapTri.v0.z << "\n";
+                k++;
+            }
+
+//            mapTri.v0 = gridPoints[j + i * length];
+//            mapTri.v1 = gridPoints[1 + j + i * length];
+//            mapTri.v2 = gridPoints[j + i * length + length];
+
+//            mapTri.n0 = mapTri.id + 1;
+//            if (j != 0)
+//            {
+//                mapTri.n1 = mapTri.id - 1;
+//            }
+//            else
+//            {
+//                mapTri.n1 = -1;
+//            }
+
+//            if (i != 0)
+//            {
+//                mapTri.n2 = mapTri.id - ((length - 1) * 2) + 1;
+//            }
+
+//            // funcftion find points in tri
+//            mTriangles.push_back(mapTri);
+
+//            mapTriangle mapTri2;
+//            mapTri2.name = nameGen(mTriangles);
+//            mapTri2.id = mTriangles.size();
+//            mapTri2.v0 = gridPoints[j + i * length + length];
+//            mapTri2.v1 = gridPoints[1 + j + i * length];
+//            mapTri2.v2 = gridPoints[1 + j + i * length + length];
+
+//            if (j != length - 1)
+//            {
+//                mapTri2.n0 = mapTri2.id + 1;
+//            }
+//            else
+//            {
+//                mapTri2.n0 = -1;
+//            }
+
+//            if (i != width - 1)
+//            {
+//                mapTri2.n1 = mapTri2.id + ((length - 1) * 2) - 1;
+//            }
+//            else
+//            {
+//                mapTri2.n1 = -1;
+//            }
+
+//            mapTri2.n2 = mapTri2.id - 1;
+
+//            mTriangles.push_back(mapTri2);
+        }
+    }
+
+}
+
+std::string CoordRead::nameGen(std::vector<mapTriangle> mTri)
+{
+    std::string tempSize = std::to_string(mTri.size());
+    std::string tempS = "t" + tempSize;
+
+    return tempS;
 }
 
 void CoordRead::init(GLint matrixUniform)

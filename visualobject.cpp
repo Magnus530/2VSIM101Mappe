@@ -1,5 +1,4 @@
 #include "visualobject.h"
-#include "boundingbox.h"
 
 VisualObject::VisualObject()
 {}

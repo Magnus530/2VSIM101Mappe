@@ -26,7 +26,7 @@ SOURCES += main.cpp \
     3DProg/lissajous.cpp \
     logger.cpp \
     mainwindow.cpp \
-    matrix4x4.cpp \
+    3DProg/matrix4x4.cpp \
     3DProg/npc.cpp \
     VisSim/objloader.cpp \
     VisSim/octahedronball.cpp \
@@ -42,8 +42,8 @@ SOURCES += main.cpp \
     VisSim/triangles.cpp \
     3DProg/trianglesurface.cpp \
     3DProg/trophy.cpp \
-    vector3d.cpp \
-    vector4d.cpp \
+    3DProg/vector3d.cpp \
+    3DProg/vector4d.cpp \
     vertex.cpp \
     3DProg/visualleastsquaresmethod.cpp \
     visualobject.cpp \
@@ -72,7 +72,7 @@ HEADERS += \
     3DProg/lissajous.h \
     logger.h \
     mainwindow.h \
-    matrix4x4.h \
+    3DProg/matrix4x4.h \
     3DProg/npc.h \
     VisSim/objloader.h \
     VisSim/octahedronball.h \
@@ -89,8 +89,8 @@ HEADERS += \
     VisSim/triangles.h \
     3DProg/trianglesurface.h \
     3DProg/trophy.h \
-    vector3d.h \
-    vector4d.h \
+    3DProg/vector3d.h \
+    3DProg/vector4d.h \
     vertex.h \
     3DProg/visualleastsquaresmethod.h \
     visualobject.h \
