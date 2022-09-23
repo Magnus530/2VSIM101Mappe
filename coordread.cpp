@@ -90,6 +90,7 @@ void CoordRead::createGrid(float step)
 //    std::cout << "gridpoint size: " << gridPoints.size() << "\n";
 //    std::cout << "point one: " << gridPoints[0].x << " " << gridPoints[0].y << " " << gridPoints[0].z << "\n";
 //    std::cout << "point two: " << gridPoints[1].x << " " << gridPoints[1].y << " " << gridPoints[1].z << "\n";
+//    std::cout << "point eight: " << gridPoints[7].x << " " << gridPoints[7].y << " " << gridPoints[7].z << "\n";
 //    std::cout << "point nine: " << gridPoints[8].x << " " << gridPoints[8].y << " " << gridPoints[8].z << "\n";
 
     xLength = (int) (xMax - xMin) / step + 1;
@@ -110,78 +111,67 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, float length, flo
 {
 //    std::cout << "length: " << length << " width: " << width << "\n";
 
-    int k = 0;
-    for (int i = 0; i < width; i++)
+    for (int i = 0; i < width - 1; i++)
     {
-        for (int j = 0; j < length; j++)
+        for (int j = 0; j < length - 1; j++)
         {
-//            std::cout << "v1: " << 1 + j + i * length << "\n";
-//            std::cout << "v2: " << j + i * length + length << "\n";
-
             mapTriangle mapTri;
             mapTri.name = nameGen(mTriangles);
             mapTri.id = mTriangles.size();
 
-            if (j < length - 2 && k < gridPoints.size() - length - 1)
+            mapTri.v0 = gridPoints[j + i * length];
+            mapTri.v1 = gridPoints[1 + j + i * length];
+            mapTri.v2 = gridPoints[j + i * length + length];
+
+            mapTri.n0 = mapTri.id + 1;
+
+            if (j != 0)
             {
-                mapTri.v0 = gridPoints[k];
-//                std::cout << "v0 xyz: " << mapTri.v0.x << " " << mapTri.v0.y << " " << mapTri.v0.z << "\n";
-                k++;
+                mapTri.n1 = mapTri.id - 1;
+            }
+            else
+            {
+                mapTri.n1 = -1;
             }
 
-//            mapTri.v0 = gridPoints[j + i * length];
-//            mapTri.v1 = gridPoints[1 + j + i * length];
-//            mapTri.v2 = gridPoints[j + i * length + length];
+            if (i != 0)
+            {
+                mapTri.n2 = mapTri.id - ((length - 1) * 2) + 1;
+            }
 
-//            mapTri.n0 = mapTri.id + 1;
-//            if (j != 0)
-//            {
-//                mapTri.n1 = mapTri.id - 1;
-//            }
-//            else
-//            {
-//                mapTri.n1 = -1;
-//            }
+            // function to find points in tri
+            mTriangles.push_back(mapTri);
 
-//            if (i != 0)
-//            {
-//                mapTri.n2 = mapTri.id - ((length - 1) * 2) + 1;
-//            }
+            mapTriangle mapTri2;
+            mapTri2.name = nameGen(mTriangles);
+            mapTri2.id = mTriangles.size();
+            mapTri2.v0 = gridPoints[j + i * length + length];
+            mapTri2.v1 = gridPoints[1 + j + i * length];
+            mapTri2.v2 = gridPoints[1 + j + i * length + length];
 
-//            // funcftion find points in tri
-//            mTriangles.push_back(mapTri);
+            if (j != length - 2)
+            {
+                mapTri2.n0 = mapTri2.id + 1;
+            }
+            else
+            {
+                mapTri2.n0 = -1;
+            }
 
-//            mapTriangle mapTri2;
-//            mapTri2.name = nameGen(mTriangles);
-//            mapTri2.id = mTriangles.size();
-//            mapTri2.v0 = gridPoints[j + i * length + length];
-//            mapTri2.v1 = gridPoints[1 + j + i * length];
-//            mapTri2.v2 = gridPoints[1 + j + i * length + length];
+            if (i != width - 2)
+            {
+                mapTri2.n1 = mapTri2.id + ((length - 1) * 2) - 1;
+            }
+            else
+            {
+                mapTri2.n1 = -1;
+            }
 
-//            if (j != length - 1)
-//            {
-//                mapTri2.n0 = mapTri2.id + 1;
-//            }
-//            else
-//            {
-//                mapTri2.n0 = -1;
-//            }
+            mapTri2.n2 = mapTri2.id - 1;
 
-//            if (i != width - 1)
-//            {
-//                mapTri2.n1 = mapTri2.id + ((length - 1) * 2) - 1;
-//            }
-//            else
-//            {
-//                mapTri2.n1 = -1;
-//            }
-
-//            mapTri2.n2 = mapTri2.id - 1;
-
-//            mTriangles.push_back(mapTri2);
+            mTriangles.push_back(mapTri2);
         }
     }
-
 }
 
 std::string CoordRead::nameGen(std::vector<mapTriangle> mTri)
