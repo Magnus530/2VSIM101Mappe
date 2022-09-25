@@ -4,6 +4,11 @@
 #include "visualobject.h"
 #include <cstddef>
 #include <algorithm>
+#include <thread>
+#include <future>
+#include <functional>
+#include <atomic>
+#include <mutex>
 
 struct mapTriangle
 {
@@ -32,7 +37,10 @@ private:
     float zMin = 0;
 
     std::vector<mapTriangle> mTriangles;
+
     std::vector<glm::vec3> gridPoints;
+
+    std::mutex mTriMutex;
 
 //    glm::vec3 botLeft = glm::vec3{0,0,0};
 //    glm::vec3 botRight = glm::vec3{0,0,0};
@@ -45,7 +53,11 @@ public:
 
     void readFile(std::string fileName);
     void createGrid(float step);
-    void triangulate(std::vector<glm::vec3>, float length, float width);
+    void triangulate(std::vector<glm::vec3> gridPoints, float length, float width);
+    void triangulateBot(std::vector<mapTriangle>& top, std::vector<glm::vec3> gridPoints, float length, float width);
+    void triangulateTop(std::vector<mapTriangle>& bot, std::vector<glm::vec3> gridPoints, float length, float width);
+    void pointInsert();
+    bool boundaryCheck(glm::vec3 vertVec, mapTriangle mT);
     std::string nameGen(std::vector<mapTriangle> mTri);
 
     void init(GLint matrixUniform) override;
