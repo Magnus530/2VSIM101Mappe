@@ -1,21 +1,22 @@
 #include "bsplinecurve.h"
 
-BSplineCurve::BSplineCurve()
+BSplineCurve::BSplineCurve(GLuint shaderNum, GLuint id)
 {
+    mTexId=id;
+    mShaderNum=shaderNum;
     for(float t=0; t<tMax; t+=dt)
     {
         Vertex v;
         v.m_xyz=EvalutaeBSpline(t);
+        v.m_normal={0,0,1};
         mVertices.push_back(v);
     }
     int j=0;
-    for(int i=0; i<mVertices.size();i++)
+    for (GLuint i=0; i < mVertices.size(); i++)
     {
-        mIndices[j]=i;
-        j++;
-        mIndices[j]=i+1;
-        j++;
+        mIndices.push_back(i);
     }
+    setPos({0,0,0});
 
 
 
@@ -105,7 +106,6 @@ void BSplineCurve::draw()
     initializeOpenGLFunctions();
     glBindVertexArray( mVAO );
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
-    glDrawArrays(GL_LINES, 0, mVertices.size());
-//    glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));
+    glDrawElements(GL_LINES, mIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));//mVertices.size());
 
 }

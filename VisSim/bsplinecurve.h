@@ -7,7 +7,7 @@
 class BSplineCurve : public VisualObject
 {
 public:
-    BSplineCurve();
+    BSplineCurve(GLuint shaderNum, GLuint id);
 
     //variables
     int n{0};

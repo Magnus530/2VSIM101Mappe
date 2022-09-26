@@ -48,6 +48,7 @@
 #include "VisSim/gravitasjonsball.h"
 #include "debug.h"
 #include "coordread.h"
+#include "VisSim/bsplinecurve.h"
 
 class QOpenGLContext;
 class Shader;
@@ -93,6 +94,7 @@ private:
 
     Collision* collision;
     Contact* hit;
+    BSplineCurve* mBSplineC;
 
 
     bool bHit = false;
