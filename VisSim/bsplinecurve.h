@@ -10,10 +10,14 @@ public:
 
     //variables
     int n{0};
-    int d{0};
-    std::vector<float>t{0,0,0,0,0,0,0,0,0,0};
-    std::vector<float>c{0,0,0,0,0,0,0,0,0,0};
+    int d{2};
+    float tMin{0.f};
+    float tMax{0.f};
+
+    std::vector<float>t{0,0,0,1,2,2,2};
+    std::vector<glm::vec3>c{{0,0,0},{0,0,0},{0,0,0}};
     //functions
+    void update();
     int findKnotInterval (float x);
     glm::vec3 EvalutaeBSpline(float x);
 };
