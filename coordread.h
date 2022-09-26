@@ -4,6 +4,20 @@
 #include "visualobject.h"
 #include <cstddef>
 #include <algorithm>
+#include <thread>
+#include <future>
+#include <functional>
+#include <atomic>
+#include <mutex>
+#include <numeric>
+
+struct mapSquare
+{
+    int id = 0;
+    glm::vec3 v0, v1, v2, v3 = glm::vec3{0,0,0};
+    glm::vec3 midPoint = glm::vec3{0,0,0};
+    std::vector<glm::vec3> inPoints;
+};
 
 struct mapTriangle
 {
@@ -31,13 +45,10 @@ private:
     float yMin = 0;
     float zMin = 0;
 
+    std::vector<mapSquare> mSquares;
     std::vector<mapTriangle> mTriangles;
-    std::vector<glm::vec3> gridPoints;
 
-//    glm::vec3 botLeft = glm::vec3{0,0,0};
-//    glm::vec3 botRight = glm::vec3{0,0,0};
-//    glm::vec3 topRight = glm::vec3{0,0,0};
-//    glm::vec3 topLeft = glm::vec3{0,0,0};
+    std::vector<glm::vec3> gridPoints;
 
 public:
     CoordRead();
@@ -45,7 +56,13 @@ public:
 
     void readFile(std::string fileName);
     void createGrid(float step);
-    void triangulate(std::vector<glm::vec3>, float length, float width);
+    void createMidGrid(float step);
+    void createSquare(float length, float width);
+    void triangulate(std::vector<glm::vec3> gridPoints, float length, float width);
+    void pointInsert();
+    bool boundaryCheck(glm::vec3 vertVec, mapSquare mS);
+    float average(float x, float y);
+    void averageCalc();
     std::string nameGen(std::vector<mapTriangle> mTri);
 
     void init(GLint matrixUniform) override;

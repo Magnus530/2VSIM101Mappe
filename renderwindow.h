@@ -115,8 +115,6 @@ private:
     void spawnRain();
     QVector2D GetRandomPosXZ();
 
-
-
     void UpdatePhysics();
     void ResolveContact(Contact& contact);
 
@@ -153,7 +151,6 @@ private:
     int mMouseYlast{0};
     int mPlayerXlast{0};
     int mPlayerZlast{0};
-
 
 /********************************************* TEXTURE *********************************************/
 
