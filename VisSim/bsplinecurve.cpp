@@ -2,10 +2,65 @@
 
 BSplineCurve::BSplineCurve()
 {
+    for(float t=0; t<tMax; t+=dt)
+    {
+        Vertex v;
+        v.m_xyz=EvalutaeBSpline(t);
+        mVertices.push_back(v);
+    }
+    int j=0;
+    for(int i=0; i<mVertices.size();i++)
+    {
+        mIndices[j]=i;
+        j++;
+        mIndices[j]=i+1;
+        j++;
+    }
+
+
 
 
 }
+void BSplineCurve::init(GLint matrixUniform)
+{
+    mMatrixUniform = matrixUniform;
 
+    initializeOpenGLFunctions();
+
+    //Vertex Array Object - VAO
+    glGenVertexArrays( 1, &mVAO );
+    glBindVertexArray( mVAO );
+
+    //Vertex Buffer Object to hold vertices - VBO
+    glGenBuffers( 1, &mVBO );
+    glBindBuffer( GL_ARRAY_BUFFER, mVBO );
+    glBufferData( GL_ARRAY_BUFFER, mVertices.size()*sizeof( Vertex ), mVertices.data(), GL_STATIC_DRAW );
+
+    // 1st attribute buffer : Position
+    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)NULL);
+    glEnableVertexAttribArray(0);
+
+    // 2nd atrribute buffer : Normal
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, m_normal) );
+    glEnableVertexAttribArray(1);
+
+    // 3rd attribute buffer : UV
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, m_st) );
+    glEnableVertexAttribArray(2);
+
+    // 4rth attribute buffer : Color
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, m_color) );
+    glEnableVertexAttribArray(3);
+
+    //Index buffer binding so that its easier to create objects without duplicate vertices.
+    glGenBuffers( 1, &mIBO );
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, mIBO );
+    glBufferData( GL_ELEMENT_ARRAY_BUFFER, mIndices.size()*sizeof(unsigned int), mIndices.data(), GL_STATIC_DRAW );
+    glBindVertexArray(0);
+
+
+}
 void BSplineCurve::update()
 {
     //Må gå igjennom for alle t[tMin] til t[max] med funksjonen EvaluateBSpilne
@@ -44,4 +99,13 @@ glm::vec3 BSplineCurve::EvalutaeBSpline(float x)
         }
     }
     return a[0];
+}
+void BSplineCurve::draw()
+{
+    initializeOpenGLFunctions();
+    glBindVertexArray( mVAO );
+    glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
+    glDrawArrays(GL_LINES, 0, mVertices.size());
+//    glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));
+
 }
