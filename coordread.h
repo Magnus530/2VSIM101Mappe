@@ -10,6 +10,8 @@
 #include <atomic>
 #include <mutex>
 #include <numeric>
+#include <fstream>
+#include <string>
 
 struct mapSquare
 {
@@ -64,6 +66,8 @@ public:
     float average(float x, float y);
     void averageCalc();
     std::string nameGen(std::vector<mapTriangle> mTri);
+    void writePoints(std::string fileName);
+    void readPoints(std::string fileName);
 
     void init(GLint matrixUniform) override;
     void draw() override;

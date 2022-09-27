@@ -12,7 +12,9 @@ CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3
 
     readFile(fileName);
     createGrid(5);
-    pointInsert();
+//    pointInsert();
+//    writePoints("../2VSIM101Mappe/squarePoints.txt");
+    readPoints("../2VSIM101Mappe/squarePoints.txt");
     averageCalc();
     createMidGrid(5);
 }
@@ -62,9 +64,10 @@ void CoordRead::readFile(std::string fileName)
             zCoords[i] -= zMin;
 
             mVertices.push_back(Vertex{xCoords[i], yCoords[i], zCoords[i], 1, 1, 1, 0, 0});
-//            mIndices.push_back(i);
         }
         in.close();
+
+        std::cout << "vertices: " << mVertices.size() << "\n";
     }
     else
     {
@@ -137,14 +140,14 @@ void CoordRead::createMidGrid(float step)
 //    std::cout << "gridpoints size: " << tempGridPoints.size() << "\n";
 //    std::cout << "vertices size: " << mVertices.size() << "\n";
 
-    xLength = (int) (tempXMax - tempXMin);
-    zWidth = (int) (tempZMax - tempZMin);
+    xLength = (int) (tempXMax - tempXMin) / step + 1;
+    zWidth = (int) (tempZMax - tempZMin) / step + 1;
 
-    std::cout << "length: " << xLength << " width: " << zWidth << "\n";
+//    std::cout << "length: " << xLength << " width: " << zWidth << "\n";
 
     if(gridPoints.size() > 0)
     {
-//        triangulate(gridPoint, );
+        triangulate(tempGridPoints, xLength, zWidth);
     }
     else
     {
@@ -187,8 +190,16 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, float length, flo
             mapTri.id = k;
 
             mapTri.v0 = gridPoints[j + i * length];
+            mVertices[j + i * length].m_xyz = mapTri.v0;
+            mIndices.push_back(j + i * length);
+
             mapTri.v1 = gridPoints[1 + j + i * length];
+            mVertices[1 + j + i * length].m_xyz = mapTri.v1;
+            mIndices.push_back(1 + j + i * length);
+
             mapTri.v2 = gridPoints[j + i * length + length];
+            mVertices[j + i * length + length].m_xyz = mapTri.v2;
+            mIndices.push_back(j + i * length + length);
 
             mapTri.n0 = mapTri.id + 1;
 
@@ -214,8 +225,16 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, float length, flo
             mapTri2.id = l;
 
             mapTri2.v0 = gridPoints[j + i * length + length];
+            mVertices[j + i * length + length].m_xyz = mapTri2.v0;
+            mIndices.push_back(j + i * length + length);
+
             mapTri2.v1 = gridPoints[1 + j + i * length];
+            mVertices[1 + j + i * length].m_xyz = mapTri2.v1;
+            mIndices.push_back(1 + j + i * length);
+
             mapTri2.v2 = gridPoints[1 + j + i * length + length];
+            mVertices[1 + j + i * length + length].m_xyz = mapTri2.v2;
+            mIndices.push_back(1 + j + i * length + length);
 
             if (j != length - 2)
             {
@@ -245,10 +264,6 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, float length, flo
 
 void CoordRead::pointInsert()
 {
-//    std::cout << "v0: " << mT.v0.x << " " << mT.v0.y << " " << mT.v0.z << " " << "\n";
-//    std::cout << "v1: " << mT.v1.x << " " << mT.v1.y << " " << mT.v1.z << " " << "\n";
-//    std::cout << "v2: " << mT.v2.x << " " << mT.v2.y << " " << mT.v2.z << " " << "\n";
-
     for (int i = 0; i < mVertices.size(); i++)
     {
         for (int j = 0; j < mSquares.size(); j++)
@@ -259,8 +274,7 @@ void CoordRead::pointInsert()
             }
         }
     }
-//    std::cout << "points found in triangle " << mSquares[3].id << ": " << mSquares[3].inPoints.size() << "\n";
-//    std::cout << "points found in triangle " << mT.id << ": " << mT.inPoints.size() << "\n";
+//    std::cout << "points found in square " << mSquares[3].id << ": " << mSquares[3].inPoints.size() << "\n";
 
 }
 
@@ -334,7 +348,6 @@ void CoordRead::averageCalc()
             tempY.push_back(mSquares[i].inPoints[j].y);
         }
         mSquares[i].midPoint.y = std::reduce(tempY.begin(), tempY.end(), 0.0) / tempY.size();
-//        std::cout << "midy " << mSquares[i].midPoint.y << "\n";
     }
 }
 
@@ -344,6 +357,78 @@ std::string CoordRead::nameGen(std::vector<mapTriangle> mTri)
     std::string tempS = "t" + tempSize;
 
     return tempS;
+}
+
+void CoordRead::writePoints(std::string fileName)
+{
+    std::ofstream wF;
+
+    wF.open(fileName.c_str());
+
+    if(wF.is_open())
+    {
+        for (int i = 0; i < mSquares.size(); i++)
+        {
+            wF << "SquareID" << mSquares[i].id << "\n";
+            wF << mSquares[i].inPoints.size() << "\n";
+            for (int j = 0; j < mSquares[i].inPoints.size(); j++)
+            {
+                wF << mSquares[i].inPoints[j].x << " ";
+                wF << mSquares[i].inPoints[j].y << " ";
+                wF << mSquares[i].inPoints[j].z << "\n";
+            }
+        }
+    }
+    else
+    {
+        std::cout << "Failed to write to file: " << fileName << ".\n";
+    }
+
+    wF.close();
+}
+
+void CoordRead::readPoints(std::string fileName)
+{
+    std::ifstream in;
+    in.open(fileName.c_str());
+
+    if (in.is_open())
+    {
+        std::cout << "The file: " << fileName << " is being read.\n";
+
+        std::string recID, search, sub, x, y, z;
+        float tempSize = 0;
+
+        while(!in.eof())
+        {
+            for (int i = 0; i < mSquares.size(); i++)
+            {            
+                in >> recID;
+                search = std::to_string(mSquares[i].id);
+                size_t found = recID.find(search);
+                in >> tempSize;
+
+                if (found != std::string::npos)
+                {
+                    sub = recID.substr(found);
+
+                    if (std::stoi(sub) == mSquares[i].id)
+                    {
+                        for (int j = 0; j < tempSize; j++)
+                        {
+                            in >> z;
+                            in >> y;
+                            in >> x;
+
+                            glm::vec3 tempVec = glm::vec3{std::stof(x), std::stof(y), std::stof(z)};
+
+                            mSquares[i].inPoints.push_back(tempVec);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 void CoordRead::init(GLint matrixUniform)
@@ -390,6 +475,6 @@ void CoordRead::draw()
     initializeOpenGLFunctions();
     glBindVertexArray( mVAO );
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
-    glDrawArrays(GL_POINTS, 0, mVertices.size());
-//    glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));
+//    glDrawArrays(GL_POINTS, 0, mVertices.size());
+    glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));
 }
