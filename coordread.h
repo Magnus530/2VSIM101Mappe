@@ -60,7 +60,7 @@ public:
     void createGrid(float step);
     void createMidGrid(float step);
     void createSquare(float length, float width);
-    void triangulate(std::vector<glm::vec3> gridPoints, float length, float width);
+    void triangulate(std::vector<glm::vec3> gridPoints, int length, int width);
     void pointInsert();
     bool boundaryCheck(glm::vec3 vertVec, mapSquare mS);
     float average(float x, float y);

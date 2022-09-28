@@ -13,8 +13,8 @@ CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3
     readFile(fileName);
     createGrid(5);
 //    pointInsert();
-//    writePoints("../2VSIM101Mappe/squarePoints.txt");
-    readPoints("../2VSIM101Mappe/squarePoints.txt");
+//    writePoints("../2VSIM101Mappe/squarePointsSteian_2.txt");
+    readPoints("../2VSIM101Mappe/squarePointsSteian_2.txt");
     averageCalc();
     createMidGrid(5);
 }
@@ -177,10 +177,11 @@ void CoordRead::createSquare(float length, float width)
     }
 }
 
-void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, float length, float width)
+void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int width)
 {
     int k = 0;
     int l = 1;
+
     for (int i = 0; i < width - 1; i++)
     {
         for (int j = 0; j < length - 1; j++)
@@ -191,18 +192,40 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, float length, flo
 
             mapTri.v0 = gridPoints[j + i * length];
             mVertices[j + i * length].m_xyz = mapTri.v0;
+
+            glm::vec3 a = mapTri.v2 - mapTri.v0;
+            glm::vec3 b = mapTri.v1 - mapTri.v0;
+            glm::vec3 n = glm::normalize(glm::cross(a, b));
+
+            mVertices[j + i * length].m_normal = glm::vec3{0,0,0};
+            mVertices[j + i * length].m_normal += n;
+            mVertices[j + i * length].m_st[0] = j / (float) length;
+            mVertices[j + i * length].m_st[1] = i / (float) width;
             mIndices.push_back(j + i * length);
+//            std::cout << "st0: " << mVertices[j + i * length].m_st[0] << " st1: " << mVertices[j + i * length].m_st[1] << "\n";
+//            std::cout << "normal: " << mVertices[j + i * length].m_normal.x << " " << mVertices[j + i * length].m_normal.y
+//                      << mVertices[j + i * length].m_normal.z << " " << "\n";
+            std::cout << "n: " << n.x << " " << n.y << " " << n.z << "\n";
 
             mapTri.v1 = gridPoints[1 + j + i * length];
             mVertices[1 + j + i * length].m_xyz = mapTri.v1;
+
+            mVertices[1 + j + i * length].m_normal += n;
+            mVertices[1 + j + i * length].m_st[0] = j / (float) length;
+            mVertices[1 + j + i * length].m_st[1] = i / (float) width;
             mIndices.push_back(1 + j + i * length);
+//            std::cout << "st0: " << mVertices[1 + j + i * length].m_st[0] << " st1: " << mVertices[1 + j + i * length].m_st[1] << "\n";
 
             mapTri.v2 = gridPoints[j + i * length + length];
             mVertices[j + i * length + length].m_xyz = mapTri.v2;
+
+            mVertices[j + i * length + length].m_normal += n;
+            mVertices[j + i * length + length].m_st[0] = j / (float) length;
+            mVertices[j + i * length + length].m_st[1] = i / (float) width;
             mIndices.push_back(j + i * length + length);
+//            std::cout << "st0: " << mVertices[j + i * length + length].m_st[0] << " st1: " << mVertices[j + i * length + length].m_st[1] << "\n";
 
             mapTri.n0 = mapTri.id + 1;
-
             if (j != 0)
             {
                 mapTri.n1 = mapTri.id - 1;
@@ -224,17 +247,36 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, float length, flo
             mapTri2.name = nameGen(mTriangles);
             mapTri2.id = l;
 
+            a = mapTri2.v0 - mapTri2.v2;
+            b = mapTri2.v1 - mapTri2.v2;
+            glm::vec3 n2 = glm::normalize(glm::cross(b, a));
+
             mapTri2.v0 = gridPoints[j + i * length + length];
             mVertices[j + i * length + length].m_xyz = mapTri2.v0;
+
+            mVertices[j + i * length + length].m_normal += n2;
+            mVertices[j + i * length + length].m_st[0] = j / (float) length;
+            mVertices[j + i * length + length].m_st[1] = i / (float) width;
             mIndices.push_back(j + i * length + length);
+//            std::cout << "st0: " << mVertices[j + i * length + length].m_st[0] << " st1: " << mVertices[j + i * length + length].m_st[1] << "\n";
 
             mapTri2.v1 = gridPoints[1 + j + i * length];
             mVertices[1 + j + i * length].m_xyz = mapTri2.v1;
+
+            mVertices[1 + j + i * length].m_normal += n2;
+            mVertices[1 + j + i * length].m_st[0] = j / (float) length;
+            mVertices[1 + j + i * length].m_st[1] = i / (float) width;
             mIndices.push_back(1 + j + i * length);
+//            std::cout << "st0: " << mVertices[1 + j + i * length].m_st[0] << " st1: " << mVertices[1 + j + i * length].m_st[1] << "\n";
 
             mapTri2.v2 = gridPoints[1 + j + i * length + length];
             mVertices[1 + j + i * length + length].m_xyz = mapTri2.v2;
+
+            mVertices[1 + j + i * length + length].m_normal += n2;
+            mVertices[1 + j + i * length + length].m_st[0] = j / (float) length;
+            mVertices[1 + j + i * length + length].m_st[1] = i / (float) width;
             mIndices.push_back(1 + j + i * length + length);
+//            std::cout << "st0: " << mVertices[1 + j + i * length + length].m_st[0] << " st1: " << mVertices[1 + j + i * length + length].m_st[1] << "\n";
 
             if (j != length - 2)
             {
@@ -478,3 +520,5 @@ void CoordRead::draw()
 //    glDrawArrays(GL_POINTS, 0, mVertices.size());
     glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));
 }
+
+//    mMap.insert(std::pair<std::string, VisualObject*>{"tsurf", new TriangleSurface(mShaderProgram[1]->getProgram(), mTexture[1]->id())});
