@@ -112,8 +112,8 @@ void RenderWindow::init()
 
 //    mBSplineC = new BSplineCurve(mShaderProgram[0]->getProgram(), mTexture[0]->id(),glm::vec3{0,0,0},glm::vec3{1,1,0},glm::vec3{1,1,1});
 //    mMap.insert(std::pair<std::string, VisualObject*>{"BSplineC",mBSplineC});
-    mMap.insert(std::pair<std::string, VisualObject*>{"coordread", new CoordRead("../2VSIM101Mappe/Terrains/Steian_2.txt", mShaderProgram[1]->getProgram(),
-                                                        mTexture[1]->id(), QVector3D{0,0,0})});
+    mMap.insert(std::pair<std::string, VisualObject*>{"coordread", new CoordRead("../2VSIM101Mappe/Terrains/Steian_2.txt",
+                                                      mShaderProgram[1]->getProgram(), mTexture[1]->id(), QVector3D{0,0,0})});
 //    mMap.insert(std::pair<std::string, VisualObject*>{"tsurf", new TriangleSurface(mShaderProgram[1]->getProgram(), mTexture[1]->id())});
 
     for (auto it = mMap.begin(); it != mMap.end(); it++)

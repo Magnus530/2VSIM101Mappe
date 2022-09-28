@@ -104,7 +104,7 @@ void CoordRead::createGrid(float step)
     }
     else
     {
-        mLog->logText("Failed to create gridpoints.\n", LogType::REALERROR);
+        std::cout << "Failed to create gridpoints.\n";
     }
 }
 
@@ -120,6 +120,8 @@ void CoordRead::createMidGrid(float step)
     for (int i = 0; i < mSquares.size(); i++)
     {
         tempGridPoints.push_back(mSquares[i].midPoint);
+//        std::cout << "msquare: " << mSquares[i].midPoint.x << " " << mSquares[i].midPoint.x << " " << mSquares[i].midPoint.x << "\n";
+//        std::cout << "tempgridP: " << tempGridPoints[i].x << " " << tempGridPoints[i].y << " " << tempGridPoints[i].z << "\n";
     }
 
     for (int i = 0; i < tempGridPoints.size(); ++i)
@@ -151,7 +153,7 @@ void CoordRead::createMidGrid(float step)
     }
     else
     {
-        mLog->logText("Failed to create gridpoints.\n", LogType::REALERROR);
+        std::cout << "Failed to create gridpoints.\n";
     }
 }
 
@@ -192,6 +194,10 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
 
             mapTri.v0 = gridPoints[j + i * length];
             mVertices[j + i * length].m_xyz = mapTri.v0;
+            mapTri.v1 = gridPoints[1 + j + i * length];
+            mVertices[1 + j + i * length].m_xyz = mapTri.v1;
+            mapTri.v2 = gridPoints[j + i * length + length];
+            mVertices[j + i * length + length].m_xyz = mapTri.v2;
 
             glm::vec3 a = mapTri.v2 - mapTri.v0;
             glm::vec3 b = mapTri.v1 - mapTri.v0;
@@ -205,25 +211,17 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
 //            std::cout << "st0: " << mVertices[j + i * length].m_st[0] << " st1: " << mVertices[j + i * length].m_st[1] << "\n";
 //            std::cout << "normal: " << mVertices[j + i * length].m_normal.x << " " << mVertices[j + i * length].m_normal.y
 //                      << mVertices[j + i * length].m_normal.z << " " << "\n";
-            std::cout << "n: " << n.x << " " << n.y << " " << n.z << "\n";
-
-            mapTri.v1 = gridPoints[1 + j + i * length];
-            mVertices[1 + j + i * length].m_xyz = mapTri.v1;
+//            std::cout << "n: " << n.x << " " << n.y << " " << n.z << "\n";
 
             mVertices[1 + j + i * length].m_normal += n;
             mVertices[1 + j + i * length].m_st[0] = j / (float) length;
             mVertices[1 + j + i * length].m_st[1] = i / (float) width;
             mIndices.push_back(1 + j + i * length);
-//            std::cout << "st0: " << mVertices[1 + j + i * length].m_st[0] << " st1: " << mVertices[1 + j + i * length].m_st[1] << "\n";
-
-            mapTri.v2 = gridPoints[j + i * length + length];
-            mVertices[j + i * length + length].m_xyz = mapTri.v2;
 
             mVertices[j + i * length + length].m_normal += n;
             mVertices[j + i * length + length].m_st[0] = j / (float) length;
             mVertices[j + i * length + length].m_st[1] = i / (float) width;
             mIndices.push_back(j + i * length + length);
-//            std::cout << "st0: " << mVertices[j + i * length + length].m_st[0] << " st1: " << mVertices[j + i * length + length].m_st[1] << "\n";
 
             mapTri.n0 = mapTri.id + 1;
             if (j != 0)
@@ -258,7 +256,6 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
             mVertices[j + i * length + length].m_st[0] = j / (float) length;
             mVertices[j + i * length + length].m_st[1] = i / (float) width;
             mIndices.push_back(j + i * length + length);
-//            std::cout << "st0: " << mVertices[j + i * length + length].m_st[0] << " st1: " << mVertices[j + i * length + length].m_st[1] << "\n";
 
             mapTri2.v1 = gridPoints[1 + j + i * length];
             mVertices[1 + j + i * length].m_xyz = mapTri2.v1;
@@ -267,7 +264,6 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
             mVertices[1 + j + i * length].m_st[0] = j / (float) length;
             mVertices[1 + j + i * length].m_st[1] = i / (float) width;
             mIndices.push_back(1 + j + i * length);
-//            std::cout << "st0: " << mVertices[1 + j + i * length].m_st[0] << " st1: " << mVertices[1 + j + i * length].m_st[1] << "\n";
 
             mapTri2.v2 = gridPoints[1 + j + i * length + length];
             mVertices[1 + j + i * length + length].m_xyz = mapTri2.v2;
@@ -276,7 +272,6 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
             mVertices[1 + j + i * length + length].m_st[0] = j / (float) length;
             mVertices[1 + j + i * length + length].m_st[1] = i / (float) width;
             mIndices.push_back(1 + j + i * length + length);
-//            std::cout << "st0: " << mVertices[1 + j + i * length + length].m_st[0] << " st1: " << mVertices[1 + j + i * length + length].m_st[1] << "\n";
 
             if (j != length - 2)
             {
@@ -384,12 +379,13 @@ void CoordRead::averageCalc()
 {
     for (int i = 0; i < mSquares.size(); i++)
     {
-        std::vector<float> tempY(0, 0);
+        std::vector<float> tempY;
         for (int j = 0; j < mSquares[i].inPoints.size(); j++)
         {
             tempY.push_back(mSquares[i].inPoints[j].y);
         }
-        mSquares[i].midPoint.y = std::reduce(tempY.begin(), tempY.end(), 0.0) / tempY.size();
+        mSquares[i].midPoint.y = std::accumulate(tempY.begin(), tempY.end(), 0.0) / tempY.size();
+//        std::cout << "sqaure mid xyz: " << mSquares[i].midPoint.x << " " << mSquares[i].midPoint.y << " " << mSquares[i].midPoint.z << "\n";
     }
 }
 
