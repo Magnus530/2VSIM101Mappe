@@ -199,6 +199,10 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
             mapTri.v2 = gridPoints[j + i * length + length];
             mVertices[j + i * length + length].m_xyz = mapTri.v2;
 
+            mapTri.A = mVertices[j + i * length];
+            mapTri.B = mVertices[1 + j + i * length];
+            mapTri.C = mVertices[j + i * length + length];
+
             glm::vec3 a = mapTri.v2 - mapTri.v0;
             glm::vec3 b = mapTri.v1 - mapTri.v0;
             glm::vec3 n = glm::normalize(glm::cross(a, b));
@@ -251,22 +255,25 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
 
             mapTri2.v0 = gridPoints[j + i * length + length];
             mVertices[j + i * length + length].m_xyz = mapTri2.v0;
+            mapTri2.v1 = gridPoints[1 + j + i * length];
+            mVertices[1 + j + i * length].m_xyz = mapTri2.v1;
+            mapTri2.v2 = gridPoints[1 + j + i * length + length];
+            mVertices[1 + j + i * length + length].m_xyz = mapTri2.v2;
+
+            mapTri2.A = mVertices[j + i * length + length];
+            mapTri2.B = mVertices[1 + j + i * length];
+            mapTri2.C = mVertices[1 + j + i * length + length];
 
             mVertices[j + i * length + length].m_normal += n2;
             mVertices[j + i * length + length].m_st[0] = j / (float) length;
             mVertices[j + i * length + length].m_st[1] = i / (float) width;
             mIndices.push_back(j + i * length + length);
 
-            mapTri2.v1 = gridPoints[1 + j + i * length];
-            mVertices[1 + j + i * length].m_xyz = mapTri2.v1;
-
             mVertices[1 + j + i * length].m_normal += n2;
             mVertices[1 + j + i * length].m_st[0] = j / (float) length;
             mVertices[1 + j + i * length].m_st[1] = i / (float) width;
             mIndices.push_back(1 + j + i * length);
 
-            mapTri2.v2 = gridPoints[1 + j + i * length + length];
-            mVertices[1 + j + i * length + length].m_xyz = mapTri2.v2;
 
             mVertices[1 + j + i * length + length].m_normal += n2;
             mVertices[1 + j + i * length + length].m_st[0] = j / (float) length;
