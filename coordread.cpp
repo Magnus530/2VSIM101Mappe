@@ -520,5 +520,3 @@ void CoordRead::draw()
 //    glDrawArrays(GL_POINTS, 0, mVertices.size());
     glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));
 }
-
-//    mMap.insert(std::pair<std::string, VisualObject*>{"tsurf", new TriangleSurface(mShaderProgram[1]->getProgram(), mTexture[1]->id())});
