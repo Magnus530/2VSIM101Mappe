@@ -9,6 +9,8 @@ SOURCES += main.cpp \
     3DProg/beziercurve.cpp \
     3DProg/billboard.cpp \
     3DProg/boundingbox.cpp \
+    VisSim/bspline.cpp \
+    VisSim/bsplinecurve.cpp \
     camera.cpp \
     VisSim/collision.cpp \
     coordread.cpp \
@@ -55,6 +57,8 @@ HEADERS += \
     3DProg/beziercurve.h \
     3DProg/billboard.h \
     3DProg/boundingbox.h \
+    VisSim/bspline.h \
+    VisSim/bsplinecurve.h \
     camera.h \
     VisSim/collision.h \
     coordread.h \
