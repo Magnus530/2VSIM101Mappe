@@ -2,6 +2,7 @@
 
 BSplineCurve::BSplineCurve(GLuint shaderNum, GLuint id)
 {
+    std::cout<<"\n HELOOOOOOOO \n";
     mTexId=id;
     mShaderNum=shaderNum;
     for(float t=0; t<tMax; t+=dt)
@@ -17,6 +18,13 @@ BSplineCurve::BSplineCurve(GLuint shaderNum, GLuint id)
         mIndices.push_back(i);
     }
     setPos({0,0,0});
+    std::cout<<"\n mVertices size: "<<mVertices.size();
+    for(int i=0; i<mVertices.size();i++)
+    {
+        glm::vec3 temp =mVertices[i].getVertexXYZ();
+        std::cout<<"Vertex: "<<i<<" x: " << temp.x<< ", y: "<<temp.y<<", z: "<<temp.z<<"\n";
+
+    }
 
 
 
