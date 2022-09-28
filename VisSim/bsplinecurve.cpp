@@ -1,10 +1,15 @@
 #include "bsplinecurve.h"
 
-BSplineCurve::BSplineCurve(GLuint shaderNum, GLuint id)
+BSplineCurve::BSplineCurve(GLuint shaderNum, GLuint id, glm::vec3 pos0,glm::vec3 pos1,glm::vec3 pos2)
 {
-    std::cout<<"\n HELOOOOOOOO \n";
     mTexId=id;
     mShaderNum=shaderNum;
+    c.push_back(pos0);
+    c.push_back(pos1);
+    c.push_back(pos2);
+    n=c.size();
+    if(n<2)
+        return;
     for(float t=0; t<tMax; t+=dt)
     {
         Vertex v;
@@ -12,19 +17,19 @@ BSplineCurve::BSplineCurve(GLuint shaderNum, GLuint id)
         v.m_normal={0,0,1};
         mVertices.push_back(v);
     }
-    int j=0;
-    for (GLuint i=0; i < mVertices.size(); i++)
+    for (GLuint i=0; i < mVertices.size()-1; i++)
     {
         mIndices.push_back(i);
+        mIndices.push_back(i+1);
     }
     setPos({0,0,0});
-    std::cout<<"\n mVertices size: "<<mVertices.size();
-    for(int i=0; i<mVertices.size();i++)
-    {
-        glm::vec3 temp =mVertices[i].getVertexXYZ();
-        std::cout<<"Vertex: "<<i<<" x: " << temp.x<< ", y: "<<temp.y<<", z: "<<temp.z<<"\n";
+//    std::cout<<"\n mVertices size: "<<mVertices.size();
+//    for(int i=0; i<mVertices.size();i++)
+//    {
+//        glm::vec3 temp =mVertices[i].getVertexXYZ();
+//        std::cout<<"Vertex: "<<i<<" x: " << temp.x<< ", y: "<<temp.y<<", z: "<<temp.z<<"\n";
 
-    }
+//    }
 
 
 
@@ -95,7 +100,7 @@ glm::vec3 BSplineCurve::EvalutaeBSpline(float x)
     a.reserve(d+1);
     for(int j=0; j<=d;j++)
     {
-        a[d-j] = c[my-j];
+        a[d-j]=c[my-j];
     }
     for(int k=d; k>0; k--)
     {

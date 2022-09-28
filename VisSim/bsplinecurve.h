@@ -7,7 +7,7 @@
 class BSplineCurve : public VisualObject
 {
 public:
-    BSplineCurve(GLuint shaderNum, GLuint id);
+    BSplineCurve(GLuint shaderNum, GLuint id, glm::vec3 pos1,glm::vec3 pos2,glm::vec3 pos3);
 
     //variables
     int n{0};
@@ -16,8 +16,8 @@ public:
     float tMax{2.f};
     float dt{0.1f};
 
-    std::vector<float>t{0,0,0,1,2,2,2};
-    std::vector<glm::vec3>c{{0,0,0},{1,1,0},{1,0,0}};
+    std::vector<float>t{0,0,0,2,2,2};
+    std::vector<glm::vec3>c;
     //functions
     void update();
     int findKnotInterval (float x);

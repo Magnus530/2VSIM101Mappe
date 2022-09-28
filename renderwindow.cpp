@@ -110,8 +110,7 @@ void RenderWindow::init()
 //    mMap.insert(std::pair<std::string, VisualObject*>{"Triangles", new Triangles("../2VSIM101Mappe/Triangles.txt", mShaderProgram[0]->getProgram(),
 //                                                      mTexture[0]->id())});
 
-    std::cout<<"\n HELLOOOOOO \n";
-    mBSplineC = new BSplineCurve(mShaderProgram[0]->getProgram(), mTexture[0]->id());
+    mBSplineC = new BSplineCurve(mShaderProgram[0]->getProgram(), mTexture[0]->id(),glm::vec3{0,0,0},glm::vec3{1,1,0},glm::vec3{1,1,1});
     mMap.insert(std::pair<std::string, VisualObject*>{"BSplineC",mBSplineC});
     mMap.insert(std::pair<std::string, VisualObject*>{"coordread", new CoordRead("../2VSIM101Mappe/Terrains/test.txt", mShaderProgram[0]->getProgram(),
                                                         mTexture[0]->id(), QVector3D{0,0,0})});
