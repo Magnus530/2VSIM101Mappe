@@ -30,13 +30,15 @@ struct mapTriangle
     float yAverage;
 
     int n0, n1, n2 = -1;
+
+    Vertex A;
+    Vertex B;
+    Vertex C;
 };
 
 class CoordRead : public VisualObject
 {
 private:
-    Logger* mLog;
-
     int mScale = 20;
 
     float xMax = 0;
