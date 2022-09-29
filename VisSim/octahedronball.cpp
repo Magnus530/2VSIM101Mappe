@@ -2,11 +2,11 @@
 
 void OctahedronBall::lagTriangel(const QVector3D &v1, const QVector3D &v2, const QVector3D &v3)
 {
-    Vertex v{v1.x(), v1.y(), v1.z(), v1.x(), v1.y(), v1.z(),0,0};
+    Vertex v{v1.x(), v1.y(), v1.z(), 0,0,1,0,0};
     mVertices.push_back(v);
-    v = Vertex{v2.x(), v2.y(), v2.z(), v2.x(), v2.y(), v2.z(),0,0};
+    v = Vertex{v2.x(), v2.y(), v2.z(), 0,0,1,0,0};
     mVertices.push_back(v);
-    v = Vertex{v3.x(), v3.y(), v3.z(), v3.x(), v3.y(), v3.z(),0,0};
+    v = Vertex{v3.x(), v3.y(), v3.z(), 0,0,1,0,0};
     mVertices.push_back(v);
 }
 

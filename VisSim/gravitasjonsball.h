@@ -3,6 +3,7 @@
 
 #include "octahedronball.h"
 #include "triangles.h"
+#include "bsplinecurve.h"
 
 class GravitasjonsBall : public OctahedronBall
 {
@@ -13,6 +14,7 @@ public:
     void draw() override;
     void move(float dt) override;
     void setSurface(VisualObject* surface);
+    BSplineCurve* mBSplineCure;
 
     QVector3D mGravity{0.f, -9.81f, 0.f};
     float mRadius = 1;

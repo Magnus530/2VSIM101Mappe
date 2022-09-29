@@ -770,6 +770,10 @@ void RenderWindow::UpdatePhysics()
                 if(collision->intersect(mGBalls[i], &tri->mTriangles[j], contact) == true)
                 {
                     ResolveContact(contact);
+                    if(!mGBalls[i]->mBSplineCure->bHasBeinUpdatedOnce)
+                        mGBalls[i]->mBSplineCure->firstUpdate(glm::vec3{(((mGBalls[i]->mPos).x(),mGBalls[i]->mPos).y(),mGBalls[i]->mPos).z()});
+
+
                 }
             }
         }

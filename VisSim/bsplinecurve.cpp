@@ -1,27 +1,22 @@
 #include "bsplinecurve.h"
 
-BSplineCurve::BSplineCurve(GLuint shaderNum, GLuint id, glm::vec3 pos0,glm::vec3 pos1,glm::vec3 pos2)
+BSplineCurve::BSplineCurve()
 {
-    mTexId=id;
-    mShaderNum=shaderNum;
-    c.push_back(pos0);
-    c.push_back(pos1);
-    c.push_back(pos2);
-    n=c.size();
-    if(n<2)
-        return;
-    for(float t=0; t<tMax; t+=dt)
-    {
-        Vertex v;
-        v.m_xyz=EvalutaeBSpline(t);
-        v.m_normal={0,0,1};
-        mVertices.push_back(v);
-    }
-    for (GLuint i=0; i < mVertices.size()-1; i++)
-    {
-        mIndices.push_back(i);
-        mIndices.push_back(i+1);
-    }
+//    n=c.size();
+//    if(n<2)
+//        return;
+//    for(float t=0; t<tMax; t+=dt)
+//    {
+//        Vertex v;
+//        v.m_xyz=EvalutaeBSpline(t);
+//        v.m_normal={0,0,1};
+//        mVertices.push_back(v);
+//    }
+//    for (GLuint i=0; i < mVertices.size()-1; i++)
+//    {
+//        mIndices.push_back(i);
+//        mIndices.push_back(i+1);
+//    }
     setPos({0,0,0});
 //    std::cout<<"\n mVertices size: "<<mVertices.size();
 //    for(int i=0; i<mVertices.size();i++)
@@ -35,6 +30,7 @@ BSplineCurve::BSplineCurve(GLuint shaderNum, GLuint id, glm::vec3 pos0,glm::vec3
 
 
 }
+
 void BSplineCurve::init(GLint matrixUniform)
 {
     mMatrixUniform = matrixUniform;
@@ -75,13 +71,35 @@ void BSplineCurve::init(GLint matrixUniform)
 
 
 }
-void BSplineCurve::update()
+void BSplineCurve::firstUpdate(glm::vec3 controlpoint)
 {
-    //Må gå igjennom for alle t[tMin] til t[max] med funksjonen EvaluateBSpilne
-    //Finne en måte å tegne dette på
-    //ha en funksjon som får in data fra objectene
-    //Oppdaterer og skriver inn verdier for tengingen av kurven
-
+    float cT = tMin;
+    for(int i=0; i<d+1;i++)
+    {
+        c.push_back(controlpoint);
+        t.push_back(cT);
+    }
+    cT++;
+    for(int i=0;i<c.size();i++)
+    {
+        t.push_back(cT);
+    }
+    tMax=cT;
+    calculateBSpline();
+    std::cout<<"\n I HAVE BEN UPDATER\n";
+}
+void BSplineCurve::update(glm::vec3 controlpoint)
+{
+    if(!bHasBeinUpdatedOnce)
+        return;
+    c.push_back(controlpoint);
+    t.push_back(t.back());
+    tMax++;
+    for(int i=0; i<d+1;i++)
+    {
+        t[t.size()-(1+i)]=tMax;
+    }
+    calculateBSpline();
 }
 
 int BSplineCurve::findKnotInterval(float x)
@@ -120,5 +138,26 @@ void BSplineCurve::draw()
     glBindVertexArray( mVAO );
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
     glDrawElements(GL_LINES, mIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));//mVertices.size());
+
+}
+
+void BSplineCurve::calculateBSpline()
+{
+    mVertices.clear();
+    mIndices.clear();
+    for(float t=0; t<tMax; t+=dt)
+        {
+            Vertex v;
+            v.m_xyz=EvalutaeBSpline(t);
+            v.m_normal={0,0,1};
+            mVertices.push_back(v);
+        }
+        for (GLuint i=0; i < mVertices.size()-1; i++)
+        {
+            mIndices.push_back(i);
+            mIndices.push_back(i+1);
+        }
+
+
 
 }
