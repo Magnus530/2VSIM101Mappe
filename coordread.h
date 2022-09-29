@@ -54,6 +54,9 @@ private:
     std::vector<glm::vec3> gridPoints;
 
 public:
+    float lXMax = 0;
+    float lZMax = 0;
+
     std::vector<mapTriangle> mTriangles;
     CoordRead();
     CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3D mP);

@@ -13,7 +13,7 @@ CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3
     readFile(fileName);
     createGrid(5);
 //    pointInsert();
-//    writePoints("../2VSIM101Mappe/squarePointsSteian_2.txt");
+//    writePoints("../2VSIM101Mappe/squarePointsSteian_1.txt");
     readPoints("../2VSIM101Mappe/squarePointsSteian_2.txt");
     averageCalc();
     createMidGrid(5);
@@ -68,6 +68,9 @@ void CoordRead::readFile(std::string fileName)
 
             mVertices.push_back(Vertex{xCoords[i], yCoords[i], zCoords[i], 1, 1, 1, 0, 0});
         }
+        lXMax = xMax - xMin;
+        lZMax = zMax - zMin;
+
         in.close();
     }
     else
@@ -212,13 +215,11 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
             mVertices[j + i * length].m_st[0] = j / (float) length;
             mVertices[j + i * length].m_st[1] = i / (float) width;
             mIndices.push_back(j + i * length);
-//            std::cout << "st0: " << mVertices[j + i * length].m_st[0] << " st1: " << mVertices[j + i * length].m_st[1] << "\n";
 
             mVertices[1 + j + i * length].m_normal += n;
             mVertices[1 + j + i * length].m_st[0] = j / (float) length;
             mVertices[1 + j + i * length].m_st[1] = i / (float) width;
             mIndices.push_back(1 + j + i * length);
-
 
             mVertices[j + i * length + length].m_normal += n;
             mVertices[j + i * length + length].m_st[0] = j / (float) length;
@@ -339,8 +340,6 @@ void CoordRead::pointInsert()
             }
         }
     }
-//    std::cout << "points found in square " << mSquares[3].id << ": " << mSquares[3].inPoints.size() << "\n";
-
 }
 
 bool CoordRead::boundaryCheck(glm::vec3 vertVec, mapSquare mS)
@@ -387,7 +386,6 @@ bool CoordRead::boundaryCheck(glm::vec3 vertVec, mapSquare mS)
 
     if(v0 == true && v1 == true && v2 == true && v3 == true)
     {
-//        std::cout << "point xz: " << vX << " " << vZ << " found in triangle: " << mS.id << "\n";
         return true;
     }
     else
@@ -427,7 +425,6 @@ void CoordRead::averageCalc()
         {
             mSquares[i].midPoint.y = sum / tempY.size();
         }
-//        std::cout << "midy: " << mSquares[i].midPoint.y << "\n";
     }
 }
 

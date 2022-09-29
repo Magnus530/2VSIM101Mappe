@@ -181,7 +181,6 @@ bool Collision::intersect(GravitasjonsBall * gBall, Triangle *tri, Contact &hit)
 
 bool Collision::intersect(GravitasjonsBall * gBall, mapTriangle *tri, Contact &hit)
 {
-
     glm::vec3 bc = (*gBall).getGlmPos3D();
     float r = (*gBall).mRadius;
 

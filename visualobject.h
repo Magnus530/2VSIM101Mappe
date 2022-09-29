@@ -55,11 +55,11 @@ public:
     QVector3D mPos = {0, 0, 0};
     QMatrix4x4 mMatrix;
 
-    GLfloat mAmbientStrength{1.f};
+    GLfloat mAmbientStrength{50.f};
     QVector3D mAmbientColor{0.6f, 0.6f, 0.6f}; // Grey
-    GLfloat mLightStrength{10.9f};
+    GLfloat mLightStrength{10.f};
     QVector3D mLightColor{0.9f, 0.9f, 0.3f};    //Yellow
-    GLfloat mSpecularStrength{10.9f};
+    GLfloat mSpecularStrength{3.f};
     GLint mSpecularExponent{4};
     // Oppgave 10 Prøver å sende inn hvit object color i shader
     QVector3D mObjectColor{1.f,1.f,1.f}; // white
