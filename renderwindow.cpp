@@ -759,6 +759,21 @@ void RenderWindow::UpdatePhysics()
             }
         }
     }
+    if(auto it = mMap.find("coordread"); it != mMap.end())
+    {
+        CoordRead* tri = static_cast<CoordRead*>(mMap["coordread"]);
+        for (int i = 0; i < mGBalls.size(); i++)
+        {
+            for (int j = 0; j < tri->mTriangles.size(); j++)
+            {
+                Contact contact;
+                if(collision->intersect(mGBalls[i], &tri->mTriangles[j], contact) == true)
+                {
+                    ResolveContact(contact);
+                }
+            }
+        }
+    }
     int numBalls = (int)mGBalls.size();
     for (int i = 0; i < (numBalls - 1); i++)
     {
@@ -775,7 +790,7 @@ void RenderWindow::UpdatePhysics()
 void RenderWindow::ResolveContact(Contact &contact)
 {
     auto* sphere = contact.A;
-    auto* triangle = contact.B;
+    auto* triangle = contact.mapB;
     const float aInvMass = 1.f / sphere->mMass;
     const float bInvMass = triangle? 0.f : (1.f / contact.A1->mMass);
     const float invMassSum = aInvMass + bInvMass;

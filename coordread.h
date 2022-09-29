@@ -50,11 +50,11 @@ private:
     float zMin = 0;
 
     std::vector<mapSquare> mSquares;
-    std::vector<mapTriangle> mTriangles;
 
     std::vector<glm::vec3> gridPoints;
 
 public:
+    std::vector<mapTriangle> mTriangles;
     CoordRead();
     CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3D mP);
 

@@ -179,6 +179,65 @@ bool Collision::intersect(GravitasjonsBall * gBall, Triangle *tri, Contact &hit)
     return false;
 }
 
+bool Collision::intersect(GravitasjonsBall * gBall, mapTriangle *tri, Contact &hit)
+{
+
+    glm::vec3 bc = (*gBall).getGlmPos3D();
+    float r = (*gBall).mRadius;
+
+    glm::vec3 A = tri->A.getVertexXYZ();
+    glm::vec3 B = tri->B.getVertexXYZ();
+    glm::vec3 C = tri->C.getVertexXYZ();
+
+    planePoint = closestPt(bc, A, B, C);
+    if (PointIn(planePoint, A, B, C))
+    {
+        glm::vec3 direction = bc - planePoint;
+        float distance = glm::length(direction);
+
+        if(distance <= r)
+        {
+            hit.A = gBall;
+            hit.mapB = tri;
+
+            glm::vec3 hitNormal = direction / distance;
+
+            hit.aContact = bc - hitNormal * r;
+            hit.bContact = planePoint;
+
+            hit.depth = r - distance;
+
+            hit.normalVec = hitNormal;
+
+            return true;
+        }
+    }
+
+    glm::vec3 cp = contactPoint(bc, r, A, B, C);
+
+    glm::vec3 direction = bc - cp;
+    float distance = glm::length(direction);
+
+    if(distance <= r)
+    {
+        hit.A = gBall;
+        hit.mapB = tri;
+
+        glm::vec3 hitNormal = direction / distance;
+
+        hit.aContact = hitNormal * r;
+        hit.bContact = planePoint;
+
+        hit.depth = r - distance;
+
+        hit.normalVec = hitNormal;
+
+        return true;
+    }
+
+    return false;
+}
+
 #include "logger.h"
 
 bool Collision::intersect(GravitasjonsBall *A, GravitasjonsBall *B, Contact &hit)

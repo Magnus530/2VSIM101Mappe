@@ -10,7 +10,7 @@
 #include "triangles.h"
 #include "Toolbox.h"
 #include "gravitasjonsball.h"
-
+#include "coordread.h"
 struct TrianglePlane
 {
     glm::vec3 normal;
@@ -22,6 +22,7 @@ struct Contact
     GravitasjonsBall* A{nullptr};
     GravitasjonsBall* A1{nullptr};
     Triangle* B{nullptr};
+    mapTriangle* mapB{nullptr};
 
     glm::vec3 normalVec{0.f, 1.f, 0.f};
     float depth = 0.f;
@@ -45,7 +46,9 @@ public:
     glm::vec3 normalVec(glm::vec3 A, glm::vec3 B, glm::vec3 C);
     bool intersect(VisualObject* A, VisualObject* B, Contact& hit);
     bool intersect(GravitasjonsBall* A, Triangle* B, Contact& hit);
+    bool intersect(GravitasjonsBall* A, mapTriangle* B, Contact& hit);
     bool intersect(GravitasjonsBall* A, GravitasjonsBall* B, Contact& hit);
+
     glm::vec3 contactPoint(glm::vec3 mP, float radius, glm::vec3 A, glm::vec3 B, glm::vec3 C);
     glm::vec3 closestPt(glm::vec3 mP, glm::vec3 A, glm::vec3 B, glm::vec3 C);
 
