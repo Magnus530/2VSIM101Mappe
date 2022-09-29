@@ -39,7 +39,7 @@ struct mapTriangle
 class CoordRead : public VisualObject
 {
 private:
-    int mScale = 20;
+    int mScale = 10;
 
     float xMax = 0;
     float yMax = 0;
@@ -73,6 +73,7 @@ public:
 
     void init(GLint matrixUniform) override;
     void draw() override;
+    GLuint getTexId() override;
 };
 
 #endif // COORDREAD_H

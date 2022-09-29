@@ -28,8 +28,11 @@ void CoordRead::readFile(std::string fileName)
     {
         std::cout << "The file: " << fileName << " is being read.\n";
 
-        std::string x, y, z;
+        std::string x, y, z, vertSize;
         std::vector<float> xCoords, yCoords, zCoords;
+
+        in >> vertSize;
+        std::cout << "There are " << vertSize << " vertices in this file.\n";
 
         while(!in.eof())
         {
@@ -66,8 +69,6 @@ void CoordRead::readFile(std::string fileName)
             mVertices.push_back(Vertex{xCoords[i], yCoords[i], zCoords[i], 1, 1, 1, 0, 0});
         }
         in.close();
-
-        std::cout << "vertices: " << mVertices.size() << "\n";
     }
     else
     {
@@ -120,11 +121,10 @@ void CoordRead::createMidGrid(float step)
     for (int i = 0; i < mSquares.size(); i++)
     {
         tempGridPoints.push_back(mSquares[i].midPoint);
-//        std::cout << "msquare: " << mSquares[i].midPoint.x << " " << mSquares[i].midPoint.x << " " << mSquares[i].midPoint.x << "\n";
-//        std::cout << "tempgridP: " << tempGridPoints[i].x << " " << tempGridPoints[i].y << " " << tempGridPoints[i].z << "\n";
+//        std::cout << "tempgridp: " << tempGridPoints[i].x << " " << tempGridPoints[i].y << " " << tempGridPoints[i].z << "\n";
     }
 
-    for (int i = 0; i < tempGridPoints.size(); ++i)
+    for (int i = 0; i < tempGridPoints.size(); i++)
     {
         tempXVals.push_back(tempGridPoints[i].x);
         tempYVals.push_back(tempGridPoints[i].y);
@@ -213,19 +213,20 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
             mVertices[j + i * length].m_st[1] = i / (float) width;
             mIndices.push_back(j + i * length);
 //            std::cout << "st0: " << mVertices[j + i * length].m_st[0] << " st1: " << mVertices[j + i * length].m_st[1] << "\n";
-//            std::cout << "normal: " << mVertices[j + i * length].m_normal.x << " " << mVertices[j + i * length].m_normal.y
-//                      << mVertices[j + i * length].m_normal.z << " " << "\n";
-//            std::cout << "n: " << n.x << " " << n.y << " " << n.z << "\n";
 
             mVertices[1 + j + i * length].m_normal += n;
             mVertices[1 + j + i * length].m_st[0] = j / (float) length;
             mVertices[1 + j + i * length].m_st[1] = i / (float) width;
             mIndices.push_back(1 + j + i * length);
 
+
             mVertices[j + i * length + length].m_normal += n;
             mVertices[j + i * length + length].m_st[0] = j / (float) length;
             mVertices[j + i * length + length].m_st[1] = i / (float) width;
             mIndices.push_back(j + i * length + length);
+//            std::cout << "normal: " << mVertices[j + i * length + length].m_normal.x << " " <<
+//                         mVertices[j + i * length + length].m_normal.y << " " << mVertices[j + i * length + length].m_normal.z << " " << "\n";
+//            std::cout << "n: " << n.x << " " << n.y << " " << n.z << "\n";
 
             mapTri.n0 = mapTri.id + 1;
             if (j != 0)
@@ -251,7 +252,21 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
 
             a = mapTri2.v0 - mapTri2.v2;
             b = mapTri2.v1 - mapTri2.v2;
-            glm::vec3 n2 = glm::normalize(glm::cross(b, a));
+            glm::vec3 n2 = glm::vec3{0,0,0};
+//            std::cout << "a " << a.x << " " << a.y << " " << a.z << "\n";
+//            std::cout << "b " << b.x << " " << b.y << " " << b.z << "\n";
+
+            if (glm::cross(b, a) == glm::vec3{0,0,0});
+            {
+                n2.x = 0;
+                n2.y = 0;
+                n2.z = 0;
+            }
+
+            if (glm::cross(b, a) != glm::vec3{0,0,0})
+            {
+                n2 = glm::normalize(glm::cross(b, a));
+            }
 
             mapTri2.v0 = gridPoints[j + i * length + length];
             mVertices[j + i * length + length].m_xyz = mapTri2.v0;
@@ -270,10 +285,9 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
             mIndices.push_back(j + i * length + length);
 
             mVertices[1 + j + i * length].m_normal += n2;
-            mVertices[1 + j + i * length].m_st[0] = j / (float) length;
-            mVertices[1 + j + i * length].m_st[1] = i / (float) width;
+            mVertices[1 + j + i * length].m_st[0] = j / (float) length - 1;
+            mVertices[1 + j + i * length].m_st[1] = i / (float) width - 1;
             mIndices.push_back(1 + j + i * length);
-
 
             mVertices[1 + j + i * length + length].m_normal += n2;
             mVertices[1 + j + i * length + length].m_st[0] = j / (float) length;
@@ -303,6 +317,13 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
             mTriangles.push_back(mapTri2);
             l += 2;
         }
+    }
+
+    for (unsigned int i = 0; i < mVertices.size(); i++ )
+    {
+        float vLen = glm::length(mVertices[i].m_normal);
+        if(vLen > 0)
+            mVertices[i].m_normal = glm::normalize(mVertices[i].m_normal);
     }
 }
 
@@ -391,8 +412,22 @@ void CoordRead::averageCalc()
         {
             tempY.push_back(mSquares[i].inPoints[j].y);
         }
-        mSquares[i].midPoint.y = std::accumulate(tempY.begin(), tempY.end(), 0.0) / tempY.size();
-//        std::cout << "sqaure mid xyz: " << mSquares[i].midPoint.x << " " << mSquares[i].midPoint.y << " " << mSquares[i].midPoint.z << "\n";
+
+        float sum = 0;
+        for (int k = 0; k < tempY.size(); k++)
+        {
+            sum += tempY[i];
+        }
+
+        if (sum == 0)
+        {
+            mSquares[i].midPoint.y = 0;
+        }
+        else
+        {
+            mSquares[i].midPoint.y = sum / tempY.size();
+        }
+//        std::cout << "midy: " << mSquares[i].midPoint.y << "\n";
     }
 }
 
@@ -504,6 +539,10 @@ void CoordRead::init(GLint matrixUniform)
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, m_st) );
     glEnableVertexAttribArray(2);
 
+//    // 3nd attribute buffer : S T
+//    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,  sizeof( Vertex ),  (GLvoid*)(6 * sizeof(GLfloat)) );
+//    glEnableVertexAttribArray(2);
+
     // 4rth attribute buffer : Color
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, m_color) );
     glEnableVertexAttribArray(3);
@@ -522,4 +561,9 @@ void CoordRead::draw()
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
 //    glDrawArrays(GL_POINTS, 0, mVertices.size());
     glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));
+}
+
+GLuint CoordRead::getTexId()
+{
+    return mTexId;
 }

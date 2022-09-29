@@ -96,7 +96,6 @@ private:
     Contact* hit;
     BSplineCurve* mBSplineC;
 
-
     bool bHit = false;
     bool bNpcHit = false;
     float bCounter = 0;
