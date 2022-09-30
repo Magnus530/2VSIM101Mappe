@@ -17,7 +17,7 @@ BSplineCurve::BSplineCurve()
 //        mIndices.push_back(i);
 //        mIndices.push_back(i+1);
 //    }
-    setPos({0,0,0});
+//    setPos({0,0,0});
 //    std::cout<<"\n mVertices size: "<<mVertices.size();
 //    for(int i=0; i<mVertices.size();i++)
 //    {

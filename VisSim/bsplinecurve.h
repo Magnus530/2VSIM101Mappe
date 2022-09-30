@@ -17,8 +17,8 @@ public:
     float tMax{1.f};
     float dt{0.1f};
 
-    std::vector<float>t;
-    std::vector<glm::vec3>c;
+    std::vector<float> t;
+    std::vector<glm::vec3> c;
     //functions
     void firstUpdate(glm::vec3 controlpoint);
     void update(glm::vec3 controlpoint);
