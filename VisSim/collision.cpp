@@ -120,6 +120,81 @@ bool Collision::intersect(VisualObject* o1, VisualObject* o2, Contact &hit)
     return false;
 }
 
+bool Collision::Planesintersect(mapPlane *p, Triangle* tri, Contact &hit)
+{
+    glm::vec3 q = glm::vec3{0,0,0};
+
+    glm::vec3 A = tri->A.getVertexXYZ();
+    glm::vec3 B = tri->B.getVertexXYZ();
+
+    glm::vec3 AB = B - A;
+
+    float d = glm::dot(p->normal, p->pos);
+//    std::cout << "d: " << d << "\n";
+
+    float t = (d - glm::dot(p->normal, A)) / (glm::dot(p->normal, AB));
+
+    if (t >= 0.0f && t <= 1.0f)
+    {
+        q = A + t * AB;
+    }
+
+//    glm::vec3 bc = (*mapPlane).getGlmPos3D();
+//    float r = (*gBall).mRadius;
+
+//    glm::vec3 A = tri->A.getVertexXYZ();
+//    glm::vec3 B = tri->B.getVertexXYZ();
+//    glm::vec3 C = tri->C.getVertexXYZ();
+
+//    planePoint = closestPt(bc, A, B, C);
+//    if (PointIn(planePoint, A, B, C))
+//    {
+//        glm::vec3 direction = bc - planePoint;
+//        float distance = glm::length(direction);
+
+//        if(distance <= r)
+//        {
+//            hit.A = gBall;
+//            hit.B = tri;
+
+//            glm::vec3 hitNormal = direction / distance;
+
+//            hit.aContact = bc - hitNormal * r;
+//            hit.bContact = planePoint;
+
+//            hit.depth = r - distance;
+
+//            hit.normalVec = hitNormal;
+
+//            return true;
+//        }
+//    }
+
+//    glm::vec3 cp = contactPoint(bc, r, A, B, C);
+
+//    glm::vec3 direction = bc - cp;
+//    float distance = glm::length(direction);
+
+//    if(distance <= r)
+//    {
+//        hit.A = gBall;
+//        hit.B = tri;
+
+//        glm::vec3 hitNormal = direction / distance;
+
+//        hit.aContact = hitNormal * r;
+//        hit.bContact = planePoint;
+
+//        hit.depth = r - distance;
+
+//        hit.normalVec = hitNormal;
+
+//        return true;
+//    }
+
+    return false;
+}
+
 bool Collision::intersect(GravitasjonsBall * gBall, Triangle *tri, Contact &hit)
 {
 

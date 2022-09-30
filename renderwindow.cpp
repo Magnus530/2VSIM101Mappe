@@ -120,9 +120,9 @@ void RenderWindow::init()
                                                       mShaderProgram[2]->getProgram(), mTexture[1]->id(), QVector3D{0,0,0})});
     mMap.insert(std::pair<std::string, VisualObject*>{"light", new Light(mShaderProgram[0]->getProgram(), mTexture[0]->id(), QVector3D{0,0,0})});
 
-    CoordRead* cRead = static_cast<CoordRead*>(mMap["coordread"]);
-    mMap.insert(std::pair<std::string, VisualObject*>{"Planes", new Planes(3, cRead->lXMax, cRead->lZMax, 2, 2,
-                                                      mShaderProgram[0]->getProgram(), mTexture[0]->id())});
+//    CoordRead* cRead = static_cast<CoordRead*>(mMap["coordread"]);
+//    mMap.insert(std::pair<std::string, VisualObject*>{"Planes", new Planes(3, cRead->lXMax, cRead->lZMax, 2, 2,
+//                                                      mShaderProgram[0]->getProgram(), mTexture[0]->id())});
 
     for (auto it = mMap.begin(); it != mMap.end(); it++)
     {

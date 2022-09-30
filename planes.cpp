@@ -40,10 +40,17 @@ void Planes::constructPlane(float height, float xMax, float zMax)
 {
     mapPlane mP;
 
+    mP.pos = glm::vec3{0, height, 0};
+
     mP.A = Vertex{0, height, 0, 1, 1, 1, 0, 1};
     mP.B = Vertex{0, height, zMax, 1, 1, 1, 1, 1};
     mP.C = Vertex{xMax, height, zMax, 1, 1, 1, 1, 0};
     mP.D = Vertex{xMax, height, 0, 1, 1, 1, 0, 0};
+
+    glm::vec3 AB = mP.B.getVertexXYZ() - mP.A.getVertexXYZ();
+    glm::vec3 AC = mP.C.getVertexXYZ() - mP.A.getVertexXYZ();
+    mP.normal = glm::cross(AB, AC);
+//    std::cout << "normal:" << mP.normal.x << " " << mP.normal.y << " " << mP.normal.z << "\n";
 
     mP.mapIndices =
     {
@@ -55,8 +62,6 @@ void Planes::constructPlane(float height, float xMax, float zMax)
 
     n += 4;
 }
-
-
 
 void Planes::init(GLint matrixUniform)
 {

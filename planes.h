@@ -10,12 +10,16 @@
 
 struct mapPlane
 {
+    glm::vec3 normal = glm::vec3{0,0,0};
+
     Vertex A;
     Vertex B;
     Vertex C;
     Vertex D;
 
     std::vector<GLuint> mapIndices;
+
+    glm::vec3 pos = glm::vec3{0,0,0};
 };
 
 class Planes : public VisualObject
