@@ -114,8 +114,12 @@ void RenderWindow::init()
     "../2VSIM101Mappe/assets/sun.obj");
     mMap.insert(std::pair<std::string, VisualObject*>{"light", mLight});
 
-//    mBSplineC = new BSplineCurve(mShaderProgram[0]->getProgram(), mTexture[0]->id(),glm::vec3{0,0,0},glm::vec3{1,1,0},glm::vec3{1,1,1});
+//    mBSplineC = new BSplineCurve();
 //    mMap.insert(std::pair<std::string, VisualObject*>{"BSplineC", mBSplineC});
+//    mBSplineC->firstUpdate({0,0,0});
+//    mBSplineC->update({1,1,1});
+//    mBSplineC->update({1,2,2});
+
     mMap.insert(std::pair<std::string, VisualObject*>{"coordread", new CoordRead("../2VSIM101Mappe/Terrains/Steian_2.txt",
                                                       mShaderProgram[2]->getProgram(), mTexture[1]->id(), QVector3D{0,0,0})});
 //    mMap.insert(std::pair<std::string, VisualObject*>{"tsurf", new TriangleSurface(mShaderProgram[1]->getProgram(), mTexture[1]->id())});
@@ -160,6 +164,15 @@ std::string RenderWindow::BallNameGenerator(std::vector<GravitasjonsBall *> bVec
     std::string tempS = "gBall" + tempSize;
 
     return tempS;
+}
+
+std::string RenderWindow::BSplineNameGenerator(std::vector<BSplineCurve *> bVec)
+{
+    std::string tempSize = std::to_string(bVec.size());
+    std::string tempS = "BSpline" + tempSize;
+
+    return tempS;
+
 }
 // Called each frame - doing the rendering!!!
 void RenderWindow::render()
@@ -272,6 +285,23 @@ void RenderWindow::render()
         {
             mBombs[i]->move(deltaTime);
         }
+    }
+
+    for (int i = 0; i < mBSplineCurves.size(); i++)
+    {
+
+        if(mGBalls[i]->mBSplineCure->bHasBeinUpdatedOnce)
+        {
+            mGBalls[i]->bSplineCuretimer+=deltaTime;
+           if(mGBalls[i]->bSplineCuretimer>1)
+            {
+
+               std::cout<<"\n this ball has bein updated once and trying again";
+                mGBalls[i]->bSplineCuretimer=0.f;
+                mGBalls[i]->mBSplineCure->update({mGBalls[i]->getPos3D().x(),mGBalls[i]->getPos3D().y(),mGBalls[i]->getPos3D().z()});
+            }
+        }
+
     }
     timer2 = timer1;
 }
@@ -723,7 +753,10 @@ void RenderWindow::spawnBall()
     mMap.insert(std::pair<std::string, VisualObject*>{ballName, gravPtr});
     mQuadTree.insert(mMap[ballName]->getPosition2D(), ballName, mMap[ballName]);
     mMap[ballName]->init(mMMatrixUniform0);
+    spawnBSplineCurve();
+    gravPtr->mBSplineCure=mBSplineCurves.back();
     mGBalls.push_back(gravPtr);
+
 }
 void RenderWindow::spawnRain()
 {
@@ -734,6 +767,18 @@ void RenderWindow::spawnRain()
     mQuadTree.insert(mMap[rainName]->getPosition2D(), rainName, mMap[rainName]);
     mMap[rainName]->init(mMMatrixUniform0);
     mGBalls.push_back(gravPtr);
+    spawnBSplineCurve();
+    mGBalls.back()->mBSplineCure=mBSplineCurves.back();
+}
+
+void RenderWindow::spawnBSplineCurve()
+{
+    std::string curveName = BSplineNameGenerator(mBSplineCurves);
+    BSplineCurve* BSplCrv = new BSplineCurve();
+    mMap.insert(std::pair<std::string, VisualObject*>{curveName, BSplCrv});
+    mQuadTree.insert(mMap[curveName]->getPosition2D(), curveName, mMap[curveName]);
+    mMap[curveName]->init(mMMatrixUniform0);
+    mBSplineCurves.push_back(BSplCrv);
 }
 QVector2D RenderWindow::GetRandomPosXZ()
 {
@@ -771,7 +816,10 @@ void RenderWindow::UpdatePhysics()
                 {
                     ResolveContact(contact);
                     if(!mGBalls[i]->mBSplineCure->bHasBeinUpdatedOnce)
-                        mGBalls[i]->mBSplineCure->firstUpdate(glm::vec3{(((mGBalls[i]->mPos).x(),mGBalls[i]->mPos).y(),mGBalls[i]->mPos).z()});
+                    {
+                        mGBalls[i]->mBSplineCure->firstUpdate(mGBalls[i]->getGlmPos3D());
+                    }
+
 
 
                 }
@@ -976,6 +1024,8 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         mQuadTree.insert(mMap[ballName]->getPosition2D(), ballName, mMap[ballName]);
         mMap[ballName]->init(mMMatrixUniform0);
         mGBalls.push_back(gravPtr);
+        spawnBSplineCurve();
+        mGBalls.back()->mBSplineCure=mBSplineCurves.back();
     }
     mKeyInputMap[event->key()] = true;
 }

@@ -15,6 +15,7 @@ public:
     void move(float dt) override;
     void setSurface(VisualObject* surface);
     BSplineCurve* mBSplineCure;
+    float bSplineCuretimer{0.f};
 
     QVector3D mGravity{0.f, -9.81f, 0.f};
     float mRadius = 1;

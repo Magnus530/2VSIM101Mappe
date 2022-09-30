@@ -4,7 +4,6 @@
 GravitasjonsBall::GravitasjonsBall(int n, QVector3D vPos): OctahedronBall (n, vPos)
 {
     setPos(vPos);
-    mBSplineCure = new BSplineCurve;
 
 //    mPosition.translate(0,0,0.25);
     mScale.scale(0.25,0.25,0.25);
@@ -16,7 +15,7 @@ GravitasjonsBall::~GravitasjonsBall()
 void GravitasjonsBall::init(GLint matrixUniform)
 {
 
-    mBSplineCure->init(matrixUniform);
+
     mMatrixUniform = matrixUniform;
        initializeOpenGLFunctions();
 
@@ -42,7 +41,6 @@ void GravitasjonsBall::init(GLint matrixUniform)
 
 void GravitasjonsBall::draw()
 {
-    mBSplineCure->draw();
     glBindVertexArray( mVAO );
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
     glDrawArrays(GL_TRIANGLES, 0, mVertices.size());//mVertices.size());

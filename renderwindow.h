@@ -107,6 +107,7 @@ private:
     void bombCheck(float dt);
     std::string nameGenerator(std::vector<Cube*> bVec);
     std::string BallNameGenerator(std::vector<GravitasjonsBall*> bVec);
+    std::string BSplineNameGenerator(std::vector<BSplineCurve*> bVec);
     void inputCheck(float dt);
     void checkCollision();
     void trophyCollision(VisualObject* vPtr1, std::vector<Trophy*> tVec, int tColor, float extent);
@@ -115,11 +116,13 @@ private:
     void houseCollision(VisualObject* vPtr1, VisualObject* vPtr2, bool isOpen);
     void spawnBall();
     void spawnRain();
+    void spawnBSplineCurve();
     QVector2D GetRandomPosXZ();
 
     void UpdatePhysics();
     void ResolveContact(Contact& contact);
 
+    std::vector<BSplineCurve*> mBSplineCurves;
     std::vector<GravitasjonsBall*> mGBalls;
     std::unordered_map<std::string, VisualObject*> mMap;
     std::unordered_map<int, bool> mKeyInputMap;
