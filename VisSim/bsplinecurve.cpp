@@ -120,7 +120,14 @@ glm::vec3 BSplineCurve::EvalutaeBSpline(float x)
 {
     int my =findKnotInterval(x);
     std::vector<glm::vec3>a;
-    a.reserve(d+1);
+//    a.reserve(d+1);
+    glm::vec3 tempVec = glm::vec3{0,0,0};
+
+    for (int i = 0; i < d+1; i++)
+    {
+        a.push_back(tempVec);
+    }
+
     for(int j=0; j<=d;j++)
     {
         a[d-j]=c[my-j];
