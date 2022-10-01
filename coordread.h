@@ -12,6 +12,7 @@
 #include <numeric>
 #include <fstream>
 #include <string>
+#include <vector>
 
 struct mapSquare
 {
@@ -39,7 +40,7 @@ struct mapTriangle
 class CoordRead : public VisualObject
 {
 private:
-    int mScale = 7;
+    int mScale = 9;
 
     float xMax = 0;
     float yMax = 0;

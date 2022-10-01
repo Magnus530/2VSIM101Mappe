@@ -89,7 +89,7 @@ void MainWindow::on_controlButton_toggled(bool checked)
 
     qDebug() << "message: ";
     msgBox.setText("* Styr kamera med w, a, s, d, e, q og ved å holde inn høyre museknapp.\n"
-                   "* Få det til å regne ved å trykk f.\n"
+                   "* Lag en regndråpe f.\n"
                    "* Skyt en ball ved å trykke t.\n"
                    "* Bytt mellom solid view og wireframe view ved å trykke 1 og 2.\n"
                    "* Bytt mellom punktsky og terreng rendring ved å trykke 3 og 4.\n"
