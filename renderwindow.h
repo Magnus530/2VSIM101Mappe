@@ -98,6 +98,7 @@ private:
     BSplineCurve* mBSplineC;
     float SplineTime{0};
     glm::vec3 SplineChangeVec{0,0,0};
+    CoordRead* mCoordRead;
 
 
     bool bHit = false;
