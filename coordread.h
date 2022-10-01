@@ -39,7 +39,7 @@ struct mapTriangle
 class CoordRead : public VisualObject
 {
 private:
-    int mScale = 8;
+    int mScale = 7;
 
     float xMax = 0;
     float yMax = 0;

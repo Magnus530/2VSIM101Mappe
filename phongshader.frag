@@ -43,20 +43,17 @@ void main() {
 
     fragColor = vec4(result, 1.0) * texture(textureSampler, UV);
 
-    if (fragmentPosition.y >= 4.95f && fragmentPosition.y <= 5.05f)
-    {
-        fragColor = vec4(vec3(1.f, 0.f, 0.f), 1.f);
-    }
-    else if (fragmentPosition.y >= 9.95f && fragmentPosition.y <= 10.05f)
-    {
-        fragColor = vec4(vec3(1.f, 0.f, 0.f), 1.f);
-    }
-    else if (fragmentPosition.y >= 14.95f && fragmentPosition.y <= 15.05f)
-    {
-        fragColor = vec4(vec3(1.f, 0.f, 0.f), 1.f);
-    }
 
-
+    int n = 50;
+    for (int i = 5; i < n; i += 5)
+    {
+        float y1 = i - 0.025f;
+        float y2 = i + 0.025f;
+        if (fragmentPosition.y >= y1 && fragmentPosition.y <= y2)
+        {
+            fragColor = vec4(vec3(1.f, 0.f, 0.f), 1.f);
+        }
+    }
 
 //    fragColor = vec4(result, 1.0); // * texture(textureSampler, UV); To use lighting on plainshader instead of texture.
 }

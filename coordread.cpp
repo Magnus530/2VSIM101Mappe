@@ -12,10 +12,10 @@ CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3
 
     readFile(fileName);
     createGrid(5);
-//    pointInsert();
-//    averageCalc();
-//    writeAverage("../2VSIM101Mappe/squareAverageSteian_2.txt");
-    readAverage("../2VSIM101Mappe/squareAverageSteian_2.txt");
+    pointInsert();
+    averageCalc();
+    writeAverage("../2VSIM101Mappe/squareAverageSteian_2.txt");
+//    readAverage("../2VSIM101Mappe/squareAverageSteian_2.txt");
     createMidGrid(5);
 }
 
@@ -99,8 +99,6 @@ void CoordRead::createGrid(float step)
     tZMax = (zMax - zMin) - (step / 2);
     tZMin = 0 + (step / 2);
 
-    std::cout << "tx: " << tXMax << " " << tXMin << " tz: " << tZMax << " " << tZMin << "\n";
-
     if(gridPoints.size() > 0)
     {
         createSquare(xLength, zWidth);
@@ -123,7 +121,6 @@ void CoordRead::createMidGrid(float step)
     for (int i = 0; i < mSquares.size(); i++)
     {
         tempGridPoints.push_back(mSquares[i].midPoint);
-//        std::cout << "tempgridp: " << tempGridPoints[i].x << " " << tempGridPoints[i].y << " " << tempGridPoints[i].z << "\n";
     }
 
     for (int i = 0; i < tempGridPoints.size(); i++)
@@ -141,13 +138,8 @@ void CoordRead::createMidGrid(float step)
     float tempYMin = *min_element(tempYVals.begin(), tempYVals.end());
     float tempZMin = *min_element(tempZVals.begin(), tempZVals.end());
 
-//    std::cout << "gridpoints size: " << tempGridPoints.size() << "\n";
-//    std::cout << "vertices size: " << mVertices.size() << "\n";
-
     xLength = (int) (tempXMax - tempXMin) / step + 1;
     zWidth = (int) (tempZMax - tempZMin) / step + 1;
-
-//    std::cout << "length: " << xLength << " width: " << zWidth << "\n";
 
     if(gridPoints.size() > 0)
     {
