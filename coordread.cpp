@@ -13,9 +13,9 @@ CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3
     readFile(fileName);
     createGrid(5);
 //    pointInsert();
-//    writePoints("../2VSIM101Mappe/squarePointsSteian_1.txt");
-    readPoints("../2VSIM101Mappe/squarePointsSteian_2.txt");
-    averageCalc();
+//    averageCalc();
+//    writeAverage("../2VSIM101Mappe/squareAverageSteian_2.txt");
+    readAverage("../2VSIM101Mappe/squareAverageSteian_2.txt");
     createMidGrid(5);
 }
 
@@ -436,7 +436,7 @@ std::string CoordRead::nameGen(std::vector<mapTriangle> mTri)
     return tempS;
 }
 
-void CoordRead::writePoints(std::string fileName)
+void CoordRead::writeAverage(std::string fileName)
 {
     std::ofstream wF;
 
@@ -446,14 +446,9 @@ void CoordRead::writePoints(std::string fileName)
     {
         for (int i = 0; i < mSquares.size(); i++)
         {
-            wF << "SquareID" << mSquares[i].id << "\n";
-            wF << mSquares[i].inPoints.size() << "\n";
-            for (int j = 0; j < mSquares[i].inPoints.size(); j++)
-            {
-                wF << mSquares[i].inPoints[j].x << " ";
-                wF << mSquares[i].inPoints[j].y << " ";
-                wF << mSquares[i].inPoints[j].z << "\n";
-            }
+            wF << mSquares[i].midPoint.x << " ";
+            wF << mSquares[i].midPoint.y << " ";
+            wF << mSquares[i].midPoint.z << "\n";
         }
     }
     else
@@ -464,7 +459,7 @@ void CoordRead::writePoints(std::string fileName)
     wF.close();
 }
 
-void CoordRead::readPoints(std::string fileName)
+void CoordRead::readAverage(std::string fileName)
 {
     std::ifstream in;
     in.open(fileName.c_str());
@@ -474,35 +469,18 @@ void CoordRead::readPoints(std::string fileName)
         std::cout << "The file: " << fileName << " is being read.\n";
 
         std::string recID, search, sub, x, y, z;
-        float tempSize = 0;
 
         while(!in.eof())
         {
             for (int i = 0; i < mSquares.size(); i++)
             {            
-                in >> recID;
-                search = std::to_string(mSquares[i].id);
-                size_t found = recID.find(search);
-                in >> tempSize;
+                in >> x;
+                in >> y;
+                in >> z;
 
-                if (found != std::string::npos)
-                {
-                    sub = recID.substr(found);
+                glm::vec3 tempVec = glm::vec3{std::stof(x), std::stof(y), std::stof(z)};
 
-                    if (std::stoi(sub) == mSquares[i].id)
-                    {
-                        for (int j = 0; j < tempSize; j++)
-                        {
-                            in >> z;
-                            in >> y;
-                            in >> x;
-
-                            glm::vec3 tempVec = glm::vec3{std::stof(x), std::stof(y), std::stof(z)};
-
-                            mSquares[i].inPoints.push_back(tempVec);
-                        }
-                    }
-                }
+                mSquares[i].midPoint = tempVec;
             }
         }
     }

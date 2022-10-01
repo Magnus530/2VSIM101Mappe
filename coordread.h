@@ -39,7 +39,7 @@ struct mapTriangle
 class CoordRead : public VisualObject
 {
 private:
-    int mScale = 11.5;
+    int mScale = 8;
 
     float xMax = 0;
     float yMax = 0;
@@ -72,8 +72,8 @@ public:
     float average(float x, float y);
     void averageCalc();
     std::string nameGen(std::vector<mapTriangle> mTri);
-    void writePoints(std::string fileName);
-    void readPoints(std::string fileName);
+    void writeAverage(std::string fileName);
+    void readAverage(std::string fileName);
 
     void init(GLint matrixUniform) override;
     void draw() override;
