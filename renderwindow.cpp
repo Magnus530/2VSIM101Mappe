@@ -562,6 +562,11 @@ void RenderWindow::inputCheck(float dt)
             cRead->renderArray = false;
         }
     }
+    if(mKeyInputMap[Qt::Key_5])
+    {
+        mCamera->SetCameraPosition({-10,60,10});
+        mCamera->SetCameraDirection(0.f, -60.f);
+    }
 
     if (mMouseInputMap[Qt::RightButton])
     {
