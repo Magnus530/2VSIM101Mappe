@@ -27,7 +27,7 @@ struct mapTriangle
     int id = 0;
     glm::vec3 v0, v1, v2 = glm::vec3{0,0,0};
     std::vector<glm::vec3> inPoints;
-    float yAverage;
+    float yAverage = 0;
 
     int n0, n1, n2 = -1;
 
@@ -39,7 +39,7 @@ struct mapTriangle
 class CoordRead : public VisualObject
 {
 private:
-    int mScale = 10;
+    int mScale = 11.5;
 
     float xMax = 0;
     float yMax = 0;
@@ -56,6 +56,7 @@ private:
 public:
     float lXMax = 0;
     float lZMax = 0;
+    bool renderArray = false;
 
     std::vector<mapTriangle> mTriangles;
     CoordRead();

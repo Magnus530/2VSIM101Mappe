@@ -526,6 +526,23 @@ void RenderWindow::inputCheck(float dt)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);    //turn off wireframe mode
     }
+    if(mKeyInputMap[Qt::Key_3])
+    {
+        if(auto it = mMap.find("coordread"); it != mMap.end())
+        {
+            CoordRead* cRead = static_cast<CoordRead*>(mMap["coordread"]);
+            cRead->renderArray = true;
+        }
+    }
+    if(mKeyInputMap[Qt::Key_4])
+    {
+        if(auto it = mMap.find("coordread"); it != mMap.end())
+        {
+            CoordRead* cRead = static_cast<CoordRead*>(mMap["coordread"]);
+            cRead->renderArray = false;
+        }
+    }
+
     if (mMouseInputMap[Qt::RightButton])
     {
         if(inDebug == true)
