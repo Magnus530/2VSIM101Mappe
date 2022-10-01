@@ -9,14 +9,15 @@ CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3
 
     mShaderNum = shaderNum;
     mTexId = id;
+    int step = 5;
 
     readFile(fileName);
-    createGrid(5);
+    createGrid(step);
 //    pointInsert();
 //    averageCalc();
-//    writeAverage("../2VSIM101Mappe/squareAverageSteian_2.txt");
-    readAverage("../2VSIM101Mappe/squareAverageSteian_2.txt");
-    createMidGrid(5);
+//    writeAverage("../2VSIM101Mappe/squareAverageSteian_2_10.txt");
+    readAverage("../2VSIM101Mappe/squareAverageSteian_2_9.txt");
+    createMidGrid(step);
 }
 
 void CoordRead::readFile(std::string fileName)
@@ -199,7 +200,19 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
 
             glm::vec3 a = mapTri.v2 - mapTri.v0;
             glm::vec3 b = mapTri.v1 - mapTri.v0;
-            glm::vec3 n = glm::normalize(glm::cross(a, b));
+            glm::vec3 n = glm::vec3{0,0,0};
+
+            if (glm::cross(a, b) == glm::vec3{0,0,0});
+            {
+                n.x = 0;
+                n.y = 0;
+                n.z = 0;
+            }
+
+            if (glm::cross(a, b) != glm::vec3{0,0,0})
+            {
+                n = glm::normalize(glm::cross(a, b));
+            }
 
             mVertices[j + i * length].m_normal = glm::vec3{0,0,0};
             mVertices[j + i * length].m_normal += n;
@@ -216,9 +229,6 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
             mVertices[j + i * length + length].m_st[0] = j / (float) length;
             mVertices[j + i * length + length].m_st[1] = i / (float) width;
             mIndices.push_back(j + i * length + length);
-//            std::cout << "normal: " << mVertices[j + i * length + length].m_normal.x << " " <<
-//                         mVertices[j + i * length + length].m_normal.y << " " << mVertices[j + i * length + length].m_normal.z << " " << "\n";
-//            std::cout << "n: " << n.x << " " << n.y << " " << n.z << "\n";
 
             mapTri.n0 = mapTri.id + 1;
             if (j != 0)
@@ -245,8 +255,6 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
             a = mapTri2.v0 - mapTri2.v2;
             b = mapTri2.v1 - mapTri2.v2;
             glm::vec3 n2 = glm::vec3{0,0,0};
-//            std::cout << "a " << a.x << " " << a.y << " " << a.z << "\n";
-//            std::cout << "b " << b.x << " " << b.y << " " << b.z << "\n";
 
             if (glm::cross(b, a) == glm::vec3{0,0,0});
             {
@@ -315,7 +323,9 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
     {
         float vLen = glm::length(mVertices[i].m_normal);
         if(vLen > 0)
+        {
             mVertices[i].m_normal = glm::normalize(mVertices[i].m_normal);
+        }
     }
 }
 
@@ -461,18 +471,15 @@ void CoordRead::readAverage(std::string fileName)
 
         std::string recID, search, sub, x, y, z;
 
-        while(!in.eof())
+        for (int i = 0; i < mSquares.size(); i++)
         {
-            for (int i = 0; i < mSquares.size(); i++)
-            {            
-                in >> x;
-                in >> y;
-                in >> z;
+            in >> x;
+            in >> y;
+            in >> z;
 
-                glm::vec3 tempVec = glm::vec3{std::stof(x), std::stof(y), std::stof(z)};
+            glm::vec3 tempVec = glm::vec3{std::stof(x), std::stof(y), std::stof(z)};
 
-                mSquares[i].midPoint = tempVec;
-            }
+            mSquares[i].midPoint = tempVec;
         }
     }
 }

@@ -114,18 +114,7 @@ void RenderWindow::init()
     "../2VSIM101Mappe/assets/sun.obj");
     mMap.insert(std::pair<std::string, VisualObject*>{"light", mLight});
 
-    spawnBSplineCurve();
-    mBSplineCurves.back()->firstUpdate({1,0,0});
-    mBSplineCurves.back()->update({1,1,1});
-    mBSplineCurves.back()->update({3,2,1});
-//    mBSplineC = new BSplineCurve();
-//    mMap.insert(std::pair<std::string, VisualObject*>{"BSplineC", mBSplineC});
-//    mBSplineC->firstUpdate({1,0,0});
-//    mBSplineC->update({1,1,1});
-//    mBSplineC->update({2,2,2});
-
-    mCoordRead= new CoordRead("../2VSIM101Mappe/Terrains/Steian_2.txt",
-                              mShaderProgram[2]->getProgram(), mTexture[1]->id(), QVector3D{0,0,0});
+    mCoordRead = new CoordRead("../2VSIM101Mappe/Terrains/Steian_2.txt", mShaderProgram[2]->getProgram(), mTexture[1]->id(), QVector3D{0,0,0});
     mMap.insert(std::pair<std::string, VisualObject*>{"coordread", mCoordRead});
     mMap.insert(std::pair<std::string, VisualObject*>{"light", new Light(mShaderProgram[0]->getProgram(), mTexture[0]->id(), QVector3D{0,0,0})});
 
