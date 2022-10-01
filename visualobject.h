@@ -55,7 +55,7 @@ public:
     QVector3D mPos = {0, 0, 0};
     QMatrix4x4 mMatrix;
 
-    GLfloat mAmbientStrength{50.f};
+    GLfloat mAmbientStrength{10.f};
     QVector3D mAmbientColor{0.6f, 0.6f, 0.6f}; // Grey
     GLfloat mLightStrength{10.f};
     QVector3D mLightColor{0.9f, 0.9f, 0.3f};    //Yellow

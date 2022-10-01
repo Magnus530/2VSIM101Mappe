@@ -7,7 +7,7 @@ in vec2 UV;       //for textures
 
 uniform sampler2D textureSampler;
 
-uniform float ambientStrength = 0.1;
+uniform float ambientStrength = 0.8;
 
 uniform vec3 lightPosition;
 uniform vec3 lightColor = vec3(.3, .3, 1.);  //blueish
