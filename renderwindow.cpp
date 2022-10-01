@@ -114,11 +114,15 @@ void RenderWindow::init()
     "../2VSIM101Mappe/assets/sun.obj");
     mMap.insert(std::pair<std::string, VisualObject*>{"light", mLight});
 
-    mBSplineC = new BSplineCurve();
-    mMap.insert(std::pair<std::string, VisualObject*>{"BSplineC", mBSplineC});
-    mBSplineC->firstUpdate({1,0,0});
-    mBSplineC->update({1,1,1});
-    mBSplineC->update({2,2,2});
+    spawnBSplineCurve();
+    mBSplineCurves.back()->firstUpdate({1,0,0});
+    mBSplineCurves.back()->update({1,1,1});
+    mBSplineCurves.back()->update({3,2,1});
+//    mBSplineC = new BSplineCurve();
+//    mMap.insert(std::pair<std::string, VisualObject*>{"BSplineC", mBSplineC});
+//    mBSplineC->firstUpdate({1,0,0});
+//    mBSplineC->update({1,1,1});
+//    mBSplineC->update({2,2,2});
 
     mMap.insert(std::pair<std::string, VisualObject*>{"coordread", new CoordRead("../2VSIM101Mappe/Terrains/Steian_2.txt",
                                                       mShaderProgram[2]->getProgram(), mTexture[1]->id(), QVector3D{0,0,0})});
@@ -290,18 +294,33 @@ void RenderWindow::render()
         }
     }
 
-    for (int i = 0; i < mBSplineCurves.size(); i++)
+    for(int i{0};i<mBSplineCurves.size();i++)
+    {
+        SplineTime+=deltaTime;
+        if(SplineTime>1)
+        {
+//            SplineTime=0;
+//            SplineChangeVec.x++;
+//            SplineChangeVec.y++;
+//            SplineChangeVec.z++;
+//            mBSplineCurves[i]->update(SplineChangeVec);
+//            std::cout<<"Updated vertex: x:"<<SplineChangeVec.x<<" y: "<<SplineChangeVec.y<<" z: "<<SplineChangeVec.z<<"\n";
+//            mBSplineCurves[i]->init(mMMatrixUniform0);
+        }
+    }
+    for (int i = 0; i < mGBalls.size(); i++)
     {
 
         if(mGBalls[i]->mBSplineCure->bHasBeinUpdatedOnce == true)
         {
             mGBalls[i]->bSplineCuretimer+=deltaTime;
-           if(mGBalls[i]->bSplineCuretimer>1)
+           if(mGBalls[i]->bSplineCuretimer>0.3)
             {
 
                std::cout<<"\n this ball has bein updated once and trying again";
                 mGBalls[i]->bSplineCuretimer=0.f;
                 mGBalls[i]->mBSplineCure->update(mGBalls[i]->getGlmPos3D());
+                mGBalls[i]->mBSplineCure->init(mMMatrixUniform0);
             }
         }
 
@@ -838,6 +857,7 @@ void RenderWindow::UpdatePhysics()
                     if(!mGBalls[i]->mBSplineCure->bHasBeinUpdatedOnce)
                     {
                         mGBalls[i]->mBSplineCure->firstUpdate(mGBalls[i]->getGlmPos3D());
+                        mGBalls[i]->mBSplineCure->init(mMMatrixUniform0);
                     }
                 }
             }

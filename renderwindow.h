@@ -96,6 +96,8 @@ private:
     Collision* collision;
     Contact* hit;
     BSplineCurve* mBSplineC;
+    float SplineTime{0};
+    glm::vec3 SplineChangeVec{0,0,0};
 
 
     bool bHit = false;

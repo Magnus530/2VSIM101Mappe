@@ -162,7 +162,7 @@ void BSplineCurve::calculateBSpline()
             Vertex v;
             v.m_xyz=EvalutaeBSpline(t);
             v.m_normal={1,0,0};
-            std::cout<<"\n vertex: x: "<<v.m_xyz.x<<"y: "<<v.m_xyz.y<<"z: "<<v.m_xyz.z<<"\n";
+//            std::cout<<"\n vertex: x: "<<v.m_xyz.x<<"y: "<<v.m_xyz.y<<"z: "<<v.m_xyz.z<<"\n";
             mVertices.push_back(v);
         }
         for (GLuint i=0; i < mVertices.size()-1; i++)
@@ -170,7 +170,7 @@ void BSplineCurve::calculateBSpline()
             mIndices.push_back(i);
             mIndices.push_back(i+1);
         }
-    std::cout<<"\n Vertex size: "<<mVertices.size();
+//    std::cout<<"\n Vertex size: "<<mVertices.size();
 
 
 }
