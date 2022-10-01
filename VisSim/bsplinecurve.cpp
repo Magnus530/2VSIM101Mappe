@@ -73,7 +73,7 @@ void BSplineCurve::init(GLint matrixUniform)
 }
 void BSplineCurve::firstUpdate(glm::vec3 controlpoint)
 {
-    std::cout<<"\n \n First controlPoint: x: "<<controlpoint.x<<" y: "<<controlpoint.y<<" z: "<<controlpoint.z<<"\n";
+//    std::cout<<"\n \n First controlPoint: x: "<<controlpoint.x<<" y: "<<controlpoint.y<<" z: "<<controlpoint.z<<"\n";
     bHasBeinUpdatedOnce=true;
     float cT = tMin;
     for(int i=0; i<d+1;i++)
@@ -89,13 +89,13 @@ void BSplineCurve::firstUpdate(glm::vec3 controlpoint)
     tMax=cT;
     n=c.size();
     calculateBSpline();
-    std::cout<<"\n I HAVE BEN UPDATER\n";
+//    std::cout<<"\n I HAVE BEN UPDATER\n";
 }
 void BSplineCurve::update(glm::vec3 controlpoint)
 {
     if(!bHasBeinUpdatedOnce)
         return;
-    std::cout<<"\n Has Bein updated again \n";
+//    std::cout<<"\n Has Bein updated again \n";
     c.push_back(controlpoint);
     t.push_back(t.back());
     tMax++;
@@ -161,7 +161,7 @@ void BSplineCurve::calculateBSpline()
         {
             Vertex v;
             v.m_xyz=EvalutaeBSpline(t);
-            v.m_normal={1,0,0};
+            v.m_normal={0,0,1};
 //            std::cout<<"\n vertex: x: "<<v.m_xyz.x<<"y: "<<v.m_xyz.y<<"z: "<<v.m_xyz.z<<"\n";
             mVertices.push_back(v);
         }

@@ -124,8 +124,9 @@ void RenderWindow::init()
 //    mBSplineC->update({1,1,1});
 //    mBSplineC->update({2,2,2});
 
-    mMap.insert(std::pair<std::string, VisualObject*>{"coordread", new CoordRead("../2VSIM101Mappe/Terrains/Steian_2.txt",
-                                                      mShaderProgram[2]->getProgram(), mTexture[1]->id(), QVector3D{0,0,0})});
+    mCoordRead= new CoordRead("../2VSIM101Mappe/Terrains/Steian_2.txt",
+                              mShaderProgram[2]->getProgram(), mTexture[1]->id(), QVector3D{0,0,0});
+    mMap.insert(std::pair<std::string, VisualObject*>{"coordread", mCoordRead});
     mMap.insert(std::pair<std::string, VisualObject*>{"light", new Light(mShaderProgram[0]->getProgram(), mTexture[0]->id(), QVector3D{0,0,0})});
 
 //    CoordRead* cRead = static_cast<CoordRead*>(mMap["coordread"]);
@@ -317,7 +318,7 @@ void RenderWindow::render()
            if(mGBalls[i]->bSplineCuretimer>0.3)
             {
 
-               std::cout<<"\n this ball has bein updated once and trying again";
+//               std::cout<<"\n this ball has bein updated once and trying again";
                 mGBalls[i]->bSplineCuretimer=0.f;
                 mGBalls[i]->mBSplineCure->update(mGBalls[i]->getGlmPos3D());
                 mGBalls[i]->mBSplineCure->init(mMMatrixUniform0);
@@ -822,8 +823,8 @@ void RenderWindow::spawnBSplineCurve()
 QVector2D RenderWindow::GetRandomPosXZ()
 {
     QVector2D randomPosXZ;
-    randomPosXZ.setX(Randomize(0,100));
-    randomPosXZ.setY(Randomize(0,100));
+    randomPosXZ.setX(Randomize(mCoordRead->tXMin,mCoordRead->tXMax));
+    randomPosXZ.setY(Randomize(mCoordRead->tZMin,mCoordRead->tZMax));
     return(randomPosXZ);
 }
 void RenderWindow::UpdatePhysics()
@@ -1056,7 +1057,7 @@ void RenderWindow::keyPressEvent(QKeyEvent *event)
         std::string ballName = BallNameGenerator(mGBalls);
         GravitasjonsBall* gravPtr = new GravitasjonsBall(6, camPos + camDir * 2.f);
         //                                gravPtr->setPos(camPos);
-        gravPtr->mVelocity=camPos + camDir * 100.f;
+        gravPtr->mVelocity=camDir * 10.f;
         mMap.insert(std::pair<std::string, VisualObject*>{ballName, gravPtr});
         mQuadTree.insert(mMap[ballName]->getPosition2D(), ballName, mMap[ballName]);
         mMap[ballName]->init(mMMatrixUniform0);
