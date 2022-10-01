@@ -34,6 +34,7 @@ SOURCES += main.cpp \
     VisSim/octahedronball.cpp \
     3DProg/plane.cpp \
     3DProg/player.cpp \
+    planes.cpp \
     renderwindow.cpp \
     shader.cpp \
     3DProg/skybox.cpp \
@@ -82,6 +83,7 @@ HEADERS += \
     VisSim/octahedronball.h \
     3DProg/plane.h \
     3DProg/player.h \
+    planes.h \
     quadtree.h \
     renderwindow.h \
     shader.h \

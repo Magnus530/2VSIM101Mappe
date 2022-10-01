@@ -11,6 +11,8 @@
 #include "Toolbox.h"
 #include "gravitasjonsball.h"
 #include "coordread.h"
+#include "planes.h"
+
 struct TrianglePlane
 {
     glm::vec3 normal;
@@ -45,6 +47,7 @@ public:
     glm::vec3 barysentricCoords(glm::vec3 p, glm::vec3 A, glm::vec3 B, glm::vec3 C);
     glm::vec3 normalVec(glm::vec3 A, glm::vec3 B, glm::vec3 C);
     bool intersect(VisualObject* A, VisualObject* B, Contact& hit);
+    bool Planesintersect(mapPlane* p, Triangle* tri, Contact& hit);
     bool intersect(GravitasjonsBall* A, Triangle* B, Contact& hit);
     bool intersect(GravitasjonsBall* A, mapTriangle* B, Contact& hit);
     bool intersect(GravitasjonsBall* A, GravitasjonsBall* B, Contact& hit);
