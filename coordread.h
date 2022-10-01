@@ -49,6 +49,7 @@ private:
     float yMin = 0;
     float zMin = 0;
 
+
     std::vector<mapSquare> mSquares;
 
     std::vector<glm::vec3> gridPoints;
@@ -57,6 +58,11 @@ public:
     float lXMax = 0;
     float lZMax = 0;
     bool renderArray = false;
+
+    float tXMin;
+    float tXMax;
+    float tZMin;
+    float tZMax;
 
     std::vector<mapTriangle> mTriangles;
     CoordRead();

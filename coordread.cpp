@@ -57,9 +57,6 @@ void CoordRead::readFile(std::string fileName)
         yMin = *min_element(yCoords.begin(), yCoords.end());
         zMin = *min_element(zCoords.begin(), zCoords.end());
 
-//        std::cout << "xMax: " << xMax << " yMax: " << yMax << " zMax: " << zMax << "\n";
-//        std::cout << "xMin: " << xMin << " yMin: " << yMin << " zMin: " << zMin << "\n";
-
         for (int i = 0; i < xCoords.size(); i++)
         {
             xCoords[i] -= xMin;
@@ -94,13 +91,15 @@ void CoordRead::createGrid(float step)
         }
     }
 
-//    std::cout << "gridpoint size: " << gridPoints.size() << "\n";
-//    std::cout << "vertices size: " << mVertices.size() << "\n";
-
     xLength = (int) (xMax - xMin) / step + 1;
     zWidth = (int) (zMax - zMin) / step + 1;
 
-//    std::cout << "length: " << xLength << " width: " << zWidth << "\n";
+    tXMax = (xMax - xMin) - (step / 2);
+    tXMin = 0 + (step / 2);
+    tZMax = (zMax - zMin) - (step / 2);
+    tZMin = 0 + (step / 2);
+
+    std::cout << "tx: " << tXMax << " " << tXMin << " tz: " << tZMax << " " << tZMin << "\n";
 
     if(gridPoints.size() > 0)
     {
