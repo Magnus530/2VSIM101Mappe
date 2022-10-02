@@ -110,7 +110,7 @@ void RenderWindow::init()
 //    mMap.insert(std::pair<std::string, VisualObject*>{"Triangles", new Triangles("../2VSIM101Mappe/Triangles.txt", mShaderProgram[0]->getProgram(),
 //                                                      mTexture[0]->id())});
 
-    mLight = new ObjLoader(QVector3D{40,20,5}, mShaderProgram[1]->getProgram(), mTexture[0]->id(),
+    mLight = new ObjLoader(QVector3D{40,25,5}, mShaderProgram[1]->getProgram(), mTexture[0]->id(),
     "../2VSIM101Mappe/assets/sun.obj");
     mMap.insert(std::pair<std::string, VisualObject*>{"light", mLight});
 
@@ -129,6 +129,10 @@ void RenderWindow::init()
     mCamera = new Camera();
     mCamera->SetCameraPosition(glm::vec3(0, 10, 10));
     mCamera->SetFar(300);
+
+    mCamera->SetCameraPosition({85,35,20});
+    mCamera->SetCameraDirection(180.f, -35.f);
+
     for (auto it=mQuadTree.begin(); it!=mQuadTree.end(); it++)
     {
         if((*it)->getShaderNum() == mShaderProgram[1]->getProgram())
@@ -553,8 +557,8 @@ void RenderWindow::inputCheck(float dt)
     }
     if(mKeyInputMap[Qt::Key_5])
     {
-        mCamera->SetCameraPosition({-10,60,10});
-        mCamera->SetCameraDirection(0.f, -60.f);
+        mCamera->SetCameraPosition({85,35,20});
+        mCamera->SetCameraDirection(180.f, -35.f);
     }
 
     if (mMouseInputMap[Qt::RightButton])

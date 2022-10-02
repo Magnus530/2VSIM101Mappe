@@ -15,8 +15,8 @@ CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3
     createGrid(step);
 //    pointInsert();
 //    averageCalc();
-//    writeAverage("../2VSIM101Mappe/squareAverageSteian_2_10.txt");
-    readAverage("../2VSIM101Mappe/squareAverageSteian_2_9.txt");
+//    writeAverage("../2VSIM101Mappe/squareAverageSteian_2_9_5.txt");
+    readAverage("../2VSIM101Mappe/squareAverageSteian_2_9_5.txt");
     createMidGrid(step);
 }
 
@@ -216,18 +216,18 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
 
             mVertices[j + i * length].m_normal = glm::vec3{0,0,0};
             mVertices[j + i * length].m_normal += n;
-            mVertices[j + i * length].m_st[0] = j / (float) length;
-            mVertices[j + i * length].m_st[1] = i / (float) width;
+            mVertices[j + i * length].m_st[0] = j / (float) length + sTNumBot;
+            mVertices[j + i * length].m_st[1] = i / (float) width + sTNumBot;
             mIndices.push_back(j + i * length);
 
             mVertices[1 + j + i * length].m_normal += n;
-            mVertices[1 + j + i * length].m_st[0] = j / (float) length;
-            mVertices[1 + j + i * length].m_st[1] = i / (float) width;
+            mVertices[1 + j + i * length].m_st[0] = j / (float) length + sTNumBot;
+            mVertices[1 + j + i * length].m_st[1] = i / (float) width + sTNumBot;
             mIndices.push_back(1 + j + i * length);
 
             mVertices[j + i * length + length].m_normal += n;
-            mVertices[j + i * length + length].m_st[0] = j / (float) length;
-            mVertices[j + i * length + length].m_st[1] = i / (float) width;
+            mVertices[j + i * length + length].m_st[0] = j / (float) length + sTNumBot;
+            mVertices[j + i * length + length].m_st[1] = i / (float) width + sTNumBot;
             mIndices.push_back(j + i * length + length);
 
             mapTri.n0 = mapTri.id + 1;
@@ -280,18 +280,18 @@ void CoordRead::triangulate(std::vector<glm::vec3> gridPoints, int length, int w
             mapTri2.C = mVertices[1 + j + i * length + length];
 
             mVertices[j + i * length + length].m_normal += n2;
-            mVertices[j + i * length + length].m_st[0] = j / (float) length;
-            mVertices[j + i * length + length].m_st[1] = i / (float) width;
+            mVertices[j + i * length + length].m_st[0] = j / (float) length + sTNumTop;
+            mVertices[j + i * length + length].m_st[1] = i / (float) width + sTNumTop;
             mIndices.push_back(j + i * length + length);
 
             mVertices[1 + j + i * length].m_normal += n2;
-            mVertices[1 + j + i * length].m_st[0] = j / (float) length - 1;
-            mVertices[1 + j + i * length].m_st[1] = i / (float) width - 1;
+            mVertices[1 + j + i * length].m_st[0] = j / (float) length + sTNumTop;
+            mVertices[1 + j + i * length].m_st[1] = i / (float) width + sTNumTop;
             mIndices.push_back(1 + j + i * length);
 
             mVertices[1 + j + i * length + length].m_normal += n2;
-            mVertices[1 + j + i * length + length].m_st[0] = j / (float) length;
-            mVertices[1 + j + i * length + length].m_st[1] = i / (float) width;
+            mVertices[1 + j + i * length + length].m_st[0] = j / (float) length + sTNumTop;
+            mVertices[1 + j + i * length + length].m_st[1] = i / (float) width + sTNumTop;
             mIndices.push_back(1 + j + i * length + length);
 
             if (j != length - 2)
