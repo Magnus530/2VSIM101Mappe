@@ -188,9 +188,11 @@ void RenderWindow::render()
     timer1 = clock();
     float deltaTime = (float)(timer1 - timer2) / 1000.f;
     inputCheck(deltaTime);
-    if(bRainIsOn)
+    rainDelayCurrent+=deltaTime;
+    if(bRainIsOn&&rainDelayCurrent>rainDelay)
     {
         spawnRain();
+        rainDelayCurrent=0;
     }
 
     //clear the screen for each redraw
@@ -307,7 +309,7 @@ void RenderWindow::render()
     }
     for (int i = 0; i < mGBalls.size(); i++)
     {
-
+        mGBalls[i]->timeAlive+=deltaTime;
         if(mGBalls[i]->mBSplineCure->bHasBeinUpdatedOnce == true)
         {
             mGBalls[i]->bSplineCuretimer+=deltaTime;
@@ -320,6 +322,38 @@ void RenderWindow::render()
                 mGBalls[i]->mBSplineCure->init(mMMatrixUniform0);
             }
         }
+        if(mGBalls[i]->timeAlive>mGBalls[i]->maxTimeAlive)
+                {
+                    for(int it=0;it<mBSplineCurves.size();it++)
+                    {
+                        for(auto it = mMap.begin(); it!= mMap.end();)
+                        {
+                            if(it->second==mGBalls[i]->mBSplineCure)
+                            {
+                                mQuadTree.erase((*it).first, (*it).second);
+                                it =mMap.erase(it);
+                            }else if(it->second==mGBalls[i])
+                            {
+                                mQuadTree.erase((*it).first, (*it).second);
+                                it= mMap.erase(it);
+
+                            }else
+                            {
+                                ++it;
+                            }
+                        }
+
+
+                        if(mBSplineCurves[it]==mGBalls[i]->mBSplineCure)
+                        {
+                            mGBalls[i]->mBSplineCure=nullptr;
+                            mBSplineCurves.erase(mBSplineCurves.begin()+it);
+
+                        }
+                    }
+                    mGBalls.erase(mGBalls.begin()+i);
+                }
+
 
     }
     timer2 = timer1;

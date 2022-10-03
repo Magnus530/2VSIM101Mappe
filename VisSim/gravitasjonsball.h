@@ -19,6 +19,9 @@ public:
 
     QVector3D mGravity{0.f, -9.81f, 0.f};
     float mRadius = 1;
+    float timeAlive{0};
+    float maxTimeAlive{5};
+
 
 
 protected:
