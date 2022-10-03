@@ -148,6 +148,7 @@ void RenderWindow::init()
             (*it)->init(mMMatrixUniform0);
         }
     }
+
     glBindVertexArray(0);       //unbinds any VertexArray - good practice
     if (!mInitialized)
         mInitialized = true;
@@ -191,6 +192,7 @@ void RenderWindow::render()
     {
         spawnRain();
     }
+
     //clear the screen for each redraw
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     //what shader to use
@@ -242,6 +244,7 @@ void RenderWindow::render()
             glUseProgram(mShaderProgram[0]->getProgram() );
             glUniformMatrix4fv( mVMatrixUniform0, 1, GL_FALSE, glm::value_ptr(view));
             glUniformMatrix4fv( mPMatrixUniform0, 1, GL_FALSE, glm::value_ptr(project));
+            glUniform3f(mLightPositionUniform, mLight->getPos3D().x(), mLight->getPos3D().y(), mLight->getPos3D().z());
             (*it)->draw();
         }
     }
@@ -559,6 +562,26 @@ void RenderWindow::inputCheck(float dt)
     {
         mCamera->SetCameraPosition({85,35,20});
         mCamera->SetCameraDirection(180.f, -35.f);
+    }
+
+    if(mKeyInputMap[Qt::Key_6])
+    {
+        if(auto it = mMap.find("coordread"); it != mMap.end())
+        {
+            mCoordRead->init(mMMatrixUniform2);
+            mCoordRead->mShaderNum = mShaderProgram[2]->getProgram();
+            mCoordRead->mTexId = mTexture[1]->id();
+        }
+    }
+
+    if(mKeyInputMap[Qt::Key_7])
+    {
+        if(mCoordRead)
+        {
+            mCoordRead->init(mMMatrixUniform0);
+            mCoordRead->mShaderNum = mShaderProgram[0]->getProgram();
+            mCoordRead->mTexId = mTexture[0]->id();
+        }
     }
 
     if (mMouseInputMap[Qt::RightButton])

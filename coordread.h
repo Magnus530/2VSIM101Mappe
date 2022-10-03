@@ -46,6 +46,8 @@ private:
     int mScale = 9;
     int step = 5;
 
+    bool mTerrainPlain = false;
+
     float xMax = 0;
     float yMax = 0;
     float zMax = 0;

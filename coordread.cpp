@@ -530,6 +530,7 @@ void CoordRead::draw()
     initializeOpenGLFunctions();
     glBindVertexArray( mVAO );
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
+
     if(renderArray == true)
     {
         glDrawArrays(GL_POINTS, 0, mVertices.size());
@@ -538,6 +539,7 @@ void CoordRead::draw()
     {
         glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));
     }
+
 }
 
 GLuint CoordRead::getTexId()

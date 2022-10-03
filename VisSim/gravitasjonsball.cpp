@@ -5,8 +5,7 @@ GravitasjonsBall::GravitasjonsBall(int n, QVector3D vPos): OctahedronBall (n, vP
 {
     setPos(vPos);
 
-//    mPosition.translate(0,0,0.25);
-    mScale.scale(0.25,0.25,0.25);
+    mMatrix.scale(0.15);
 }
 
 GravitasjonsBall::~GravitasjonsBall()

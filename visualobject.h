@@ -22,8 +22,6 @@ struct Triangle
 class VisualObject : public QOpenGLFunctions_4_1_Core
 {
 protected:
-    GLuint mShaderNum = 0;
-    GLuint mTexId = 0;
 
     GLint mMMatrixUniform = 0;
 
@@ -48,6 +46,9 @@ protected:
     glm::mat4 mModelMatrix{1.f};
 
 public:
+    GLuint mShaderNum = 0;
+    GLuint mTexId = 0;
+
     QVector3D mVelocity;
     float mMass = 1.f;
     float mElasticity = 0.5f;
