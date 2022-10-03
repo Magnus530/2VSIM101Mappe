@@ -40,8 +40,8 @@ struct mapTriangle
 class CoordRead : public VisualObject
 {
 private:
-    float sTNumBot = 0.05f;
-    float sTNumTop = - 0.05f;
+    float sT1 =  500.05f;
+    float sT2 = - 500.05f;
 
     int mScale = 9;
     int step = 5;

@@ -339,7 +339,7 @@ void RenderWindow::render()
 
                             }else
                             {
-                                ++it;
+                                it++;
                             }
                         }
 

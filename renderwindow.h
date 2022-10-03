@@ -99,7 +99,7 @@ private:
     float SplineTime{0};
     glm::vec3 SplineChangeVec{0,0,0};
     CoordRead* mCoordRead;
-    float rainDelay{0.2};
+    float rainDelay{0.0};
     float rainDelayCurrent{0};
 
 
