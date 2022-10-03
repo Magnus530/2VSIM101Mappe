@@ -44,6 +44,7 @@ private:
     float sTNumTop = - 0.05f;
 
     int mScale = 9;
+    int step = 5;
 
     float xMax = 0;
     float yMax = 0;
@@ -52,7 +53,6 @@ private:
     float xMin = 0;
     float yMin = 0;
     float zMin = 0;
-
 
     std::vector<mapSquare> mSquares;
 

@@ -9,13 +9,12 @@ CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3
 
     mShaderNum = shaderNum;
     mTexId = id;
-    int step = 5;
 
     readFile(fileName);
     createGrid(step);
 //    pointInsert();
 //    averageCalc();
-//    writeAverage("../2VSIM101Mappe/squareAverageSteian_2_9_5.txt");
+//    writeAverage("../2VSIM101Mappe/squareAverageSteian_2_5_10.txt");
     readAverage("../2VSIM101Mappe/squareAverageSteian_2_9_5.txt");
     createMidGrid(step);
 }
@@ -467,9 +466,8 @@ void CoordRead::readAverage(std::string fileName)
 
     if (in.is_open())
     {
+        std::string x, y, z;
         std::cout << "The file: " << fileName << " is being read.\n";
-
-        std::string recID, search, sub, x, y, z;
 
         for (int i = 0; i < mSquares.size(); i++)
         {
