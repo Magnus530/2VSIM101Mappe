@@ -93,6 +93,8 @@ void MainWindow::on_controlButton_toggled(bool checked)
                    "* Skyt en ball ved å trykke t.\n"
                    "* Bytt mellom solid view og wireframe view ved å trykke 1 og 2.\n"
                    "* Bytt mellom punktsky og terreng rendring ved å trykke 3 og 4.\n"
+                   "* Bytt mellom kamera posisjoner ved å trykke 5, 6 og 7.\n"
+                   "* Trykk på oppgave 3 for å få det til å regne, og for å stoppe regnet.\n"
                    );
     msgBox.exec();
 }

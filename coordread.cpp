@@ -15,7 +15,7 @@ CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3
 //    pointInsert();
 //    averageCalc();
 //    writeAverage("../2VSIM101Mappe/squareAverageSteian_2_5_10.txt");
-    readAverage("../2VSIM101Mappe/squareAverageSteian_2_9_5.txt");
+    readAverage("../2VSIM101Mappe/squareAverageSteian_2_5_10.txt");
     createMidGrid(step);
 }
 

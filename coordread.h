@@ -43,8 +43,8 @@ private:
     float sT1 =  500.05f;
     float sT2 = - 500.05f;
 
-    int mScale = 9;
-    int step = 5;
+    int mScale = 5;
+    int step = 10;
 
     bool mTerrainPlain = false;
 

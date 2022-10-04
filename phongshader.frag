@@ -7,7 +7,7 @@ in vec2 UV;       //for textures
 
 uniform sampler2D textureSampler;
 
-uniform float ambientStrength = 0.8;
+uniform float ambientStrength = 1.;
 
 uniform vec3 lightPosition;
 uniform vec3 lightColor = vec3(.3, .3, 1.);  //blueish
@@ -44,7 +44,7 @@ void main() {
     fragColor = vec4(result, 1.0) * texture(textureSampler, UV);
 
 
-    int n = 50;
+    int n = 100;
     for (int i = 5; i < n; i += 5)
     {
         float y1 = i - 0.025f;
