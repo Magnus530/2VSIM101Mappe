@@ -22,15 +22,11 @@ public:
     float timeAlive{0};
     float maxTimeAlive{12};
 
-
-
 protected:
     VisualObject* triangle_surface;
 private:
     QVector3D old_normal{0.0, 0.0, 1.0};
     int old_index{0};
-public:
-//    QVector3D mTriangles<TriangleSurface;
 };
 
 #endif // GRAVITASJONSBALL_H

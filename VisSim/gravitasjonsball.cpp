@@ -15,8 +15,6 @@ GravitasjonsBall::~GravitasjonsBall()
 
 void GravitasjonsBall::init(GLint matrixUniform)
 {
-
-
     mMatrixUniform = matrixUniform;
        initializeOpenGLFunctions();
 

@@ -27,9 +27,6 @@ public:
     void init(GLint matrixUniform) override;
     void draw() override;
     void calculateBSpline();
-
-
-
 };
 
 #endif // BSPLINECURVE_H

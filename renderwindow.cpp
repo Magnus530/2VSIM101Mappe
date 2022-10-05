@@ -309,8 +309,6 @@ void RenderWindow::render()
             mGBalls[i]->bSplineCuretimer+=deltaTime;
            if(mGBalls[i]->bSplineCuretimer>0.3)
             {
-
-//               std::cout<<"\n this ball has bein updated once and trying again";
                 mGBalls[i]->bSplineCuretimer=0.f;
                 mGBalls[i]->mBSplineCure->update(mGBalls[i]->getGlmPos3D());
                 mGBalls[i]->mBSplineCure->init(mMMatrixUniform0);
@@ -336,8 +334,6 @@ void RenderWindow::render()
                                 it++;
                             }
                         }
-
-
                         if(mBSplineCurves[it]==mGBalls[i]->mBSplineCure)
                         {
                             mGBalls[i]->mBSplineCure=nullptr;
@@ -347,8 +343,6 @@ void RenderWindow::render()
                     }
                     mGBalls.erase(mGBalls.begin()+i);
                 }
-
-
     }
     timer2 = timer1;
 }
@@ -604,6 +598,16 @@ void RenderWindow::inputCheck(float dt)
         mCamera->SetCameraDirection(-260.f, -35.f);
     }
 
+    if(mKeyInputMap[Qt::Key_8])
+    {
+        if(mCoordRead)
+        {
+            mCoordRead->init(mMMatrixUniform0);
+            mCoordRead->mShaderNum = mShaderProgram[0]->getProgram();
+//            mCoordRead->mTexId = mTexture[0]->id();
+        }
+    }
+
     if(mKeyInputMap[Qt::Key_9])
     {
         if(auto it = mMap.find("coordread"); it != mMap.end())
@@ -611,16 +615,6 @@ void RenderWindow::inputCheck(float dt)
             mCoordRead->init(mMMatrixUniform2);
             mCoordRead->mShaderNum = mShaderProgram[2]->getProgram();
             mCoordRead->mTexId = mTexture[1]->id();
-        }
-    }
-
-    if(mKeyInputMap[Qt::Key_0])
-    {
-        if(mCoordRead)
-        {
-            mCoordRead->init(mMMatrixUniform0);
-            mCoordRead->mShaderNum = mShaderProgram[0]->getProgram();
-//            mCoordRead->mTexId = mTexture[0]->id();
         }
     }
 
