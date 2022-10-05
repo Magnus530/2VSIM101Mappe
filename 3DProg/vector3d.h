@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <QtMath>
 
 class Vector3d
 {

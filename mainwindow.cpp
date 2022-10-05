@@ -94,6 +94,7 @@ void MainWindow::on_controlButton_toggled(bool checked)
                    "* Bytt mellom solid view og wireframe view ved å trykke 1 og 2.\n"
                    "* Bytt mellom punktsky og terreng rendring ved å trykke 3 og 4.\n"
                    "* Bytt mellom kamera posisjoner ved å trykke 5, 6 og 7.\n"
+                   "* Trykk på oppgave 2 for å visualisere terrenget.\n"
                    "* Trykk på oppgave 3 for å få det til å regne, og for å stoppe regnet.\n"
                    );
     msgBox.exec();
@@ -125,8 +126,14 @@ void MainWindow::on_task3Button_clicked()
         mRenderWindow->bRainIsOn=false;
     else
         mRenderWindow->bRainIsOn=true;
+}
 
 
-
+void MainWindow::on_task2Button_clicked()
+{
+    if (mRenderWindow)
+    {
+        mRenderWindow->mCoordRead->bRender = true;
+    }
 }
 

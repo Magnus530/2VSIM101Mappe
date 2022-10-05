@@ -5,6 +5,7 @@
 #include <QMatrix4x4>
 #include <vector>
 #include <string>
+#include <QtMath>
 
 #include "vertex.h"
 #include "texture.h"

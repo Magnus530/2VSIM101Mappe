@@ -64,6 +64,7 @@ public:
     float lXMax = 0;
     float lZMax = 0;
     bool renderArray = false;
+    bool bRender = false;
 
     float tXMin;
     float tXMax;

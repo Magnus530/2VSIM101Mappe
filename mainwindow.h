@@ -33,6 +33,8 @@ private slots:
 
     void on_task3Button_clicked();
 
+    void on_task2Button_clicked();
+
 private:
     ///called from the constructor. Initializes different parts of the program.
     void init();

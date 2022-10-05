@@ -620,7 +620,7 @@ void RenderWindow::inputCheck(float dt)
         {
             mCoordRead->init(mMMatrixUniform0);
             mCoordRead->mShaderNum = mShaderProgram[0]->getProgram();
-            mCoordRead->mTexId = mTexture[0]->id();
+//            mCoordRead->mTexId = mTexture[0]->id();
         }
     }
 
@@ -863,7 +863,7 @@ void RenderWindow::spawnRain()
 {
     std::string rainName = BallNameGenerator(mGBalls);
     QVector2D rainPosXZ = GetRandomPosXZ();
-    GravitasjonsBall* gravPtr = new GravitasjonsBall(2,{rainPosXZ.x(),50,rainPosXZ.y()});
+    GravitasjonsBall* gravPtr = new GravitasjonsBall(2,{rainPosXZ.x(),45,rainPosXZ.y()});
     mMap.insert(std::pair<std::string, VisualObject*>{rainName,gravPtr});
     mQuadTree.insert(mMap[rainName]->getPosition2D(), rainName, mMap[rainName]);
     mMap[rainName]->init(mMMatrixUniform0);
