@@ -125,14 +125,14 @@ void Texture::setTexture()
 
     glGenerateMipmap(GL_TEXTURE_2D);
 
-    mLogger->logText("Texture " + textureFilename + " successfully read | id = " + std::to_string(mId) +
-                     "| bytes pr pixel: " + std::to_string(mBytesPrPixel) + " | using alpha:"+ std::to_string(mAlphaUsed));
+//    mLogger->logText("Texture " + textureFilename + " successfully read | id = " + std::to_string(mId) +
+//                     "| bytes pr pixel: " + std::to_string(mBytesPrPixel) + " | using alpha:"+ std::to_string(mAlphaUsed));
 }
 
 // Oppgave 3 Lag gul dummy.
 void Texture::makeDummyTexture()
 {
-    mLogger->logText("Making dummy texture");
+//    mLogger->logText("Making dummy texture");
     for (int i=0; i<16; i++)
         pixels[i] = 0;
     pixels[0] = 255; // rød

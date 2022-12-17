@@ -24,11 +24,11 @@ Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
 
     // Open files and check for errors
     vShaderFile.open( vertexPath );
-    if(!vShaderFile)
-        mLogger->logText("ERROR SHADER FILE " + std::string(vertexPath) + " NOT SUCCESFULLY READ", LogType::REALERROR);
+//    if(!vShaderFile)
+//        mLogger->logText("ERROR SHADER FILE " + std::string(vertexPath) + " NOT SUCCESFULLY READ", LogType::REALERROR);
     fShaderFile.open( fragmentPath );
-    if(!fShaderFile)
-        mLogger->logText("ERROR SHADER FILE " + std::string(fragmentPath) + " NOT SUCCESFULLY READ", LogType::REALERROR);
+//    if(!fShaderFile)
+//        mLogger->logText("ERROR SHADER FILE " + std::string(fragmentPath) + " NOT SUCCESFULLY READ", LogType::REALERROR);
     std::stringstream vShaderStream, fShaderStream;
     // Read file's buffer contents into streams
     vShaderStream << vShaderFile.rdbuf( );
@@ -56,8 +56,8 @@ Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
     if ( !success )
     {
         glGetShaderInfoLog( vertex, 512, nullptr, infoLog );
-        mLogger->logText("ERROR SHADER VERTEX " + std::string(vertexPath) +
-                         " COMPILATION_FAILED\n" + infoLog, LogType::REALERROR);
+//        mLogger->logText("ERROR SHADER VERTEX " + std::string(vertexPath) +
+//                         " COMPILATION_FAILED\n" + infoLog, LogType::REALERROR);
     }
     // Fragment Shader
     fragment = glCreateShader( GL_FRAGMENT_SHADER );
@@ -68,8 +68,8 @@ Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
     if ( !success )
     {
         glGetShaderInfoLog( fragment, 512, nullptr, infoLog );
-        mLogger->logText("ERROR SHADER VERTEX " + std::string(fragmentPath) +
-                         " COMPILATION_FAILED\n" + infoLog, LogType::REALERROR);
+//        mLogger->logText("ERROR SHADER VERTEX " + std::string(fragmentPath) +
+//                         " COMPILATION_FAILED\n" + infoLog, LogType::REALERROR);
     }
     // Shader Program linking
     this->mProgram = glCreateProgram();
@@ -86,8 +86,8 @@ Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
     if (!success)
     {
         glGetProgramInfoLog( this->mProgram, 512, nullptr, infoLog );
-        mLogger->logText("ERROR::SHADER::PROGRAM::LINKING_FAILED\n" +
-                          shadername +  "\n   " + infoLog, LogType::REALERROR);
+//        mLogger->logText("ERROR::SHADER::PROGRAM::LINKING_FAILED\n" +
+//                          shadername +  "\n   " + infoLog, LogType::REALERROR);
     }
     else
     {

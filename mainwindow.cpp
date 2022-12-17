@@ -88,15 +88,15 @@ void MainWindow::on_controlButton_toggled(bool checked)
     QMessageBox msgBox;
 
     qDebug() << "message: ";
-    msgBox.setText("* Styr kamera med w, a, s, d, e, q og ved å holde inn høyre museknapp.\n"
-                   "* Lag en regndråpe f.\n"
-                   "* Skyt en ball ved å trykke t.\n"
-                   "* Bytt mellom solid view og wireframe view ved å trykke 1 og 2.\n"
-                   "* Bytt mellom punktsky og terreng rendring ved å trykke 3 og 4.\n"
-                   "* Bytt mellom kamera posisjoner ved å trykke 5, 6 og 7.\n"
-                   "* Bytt mellom plain og phongshader med tekstur ved å trykke 8 og 9.\n"
-                   "* Trykk på oppgave 2 for å visualisere terrenget.\n"
-                   "* Trykk på oppgave 3 for å få det til å regne, og for å stoppe regnet.\n"
+    msgBox.setText("* Control the camera with w, a, s, d, e, q and by holding right mouse button.\n"
+                   "* Create a rain drop by pressing f.\n"
+                   "* Launch rain by pressing t.\n"
+                   "* Change between solid view og wireframe view by pressing 1 og 2.\n"
+                   "* Change between point cloud and terrain rendering by pressing 3 og 4.\n"
+                   "* Change between camera positions by pressing 5, 6 og 7.\n"
+                   "* Change between plain og phongshader with texture by pressing 8 og 9.\n"
+                   "* Press Generate Terrain to visualize the terrain.\n"
+                   "* Press Rain Control to make it rain, and to stop the rain from falling.\n"
                    );
     msgBox.exec();
 }
