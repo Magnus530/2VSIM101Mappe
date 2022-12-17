@@ -98,8 +98,6 @@ void RenderWindow::init()
     mQuadTree.init(a, b, c, d);
     collision = new Collision();
     hit = new Contact();
-    mLight = new ObjLoader(QVector3D{0,20,0}, mShaderProgram[1]->getProgram(), mTexture[0]->id(),
-            "../2VSIM101Mappe/assets/sun.obj");
     terrain = new Terrain(mShaderProgram[2]->getProgram(), mTexture[1]->id(),
             "../2VSIM101Mappe/textures/terrain3.png");
     if(inDebug == true)
@@ -110,17 +108,13 @@ void RenderWindow::init()
 //    mMap.insert(std::pair<std::string, VisualObject*>{"Triangles", new Triangles("../2VSIM101Mappe/Triangles.txt", mShaderProgram[0]->getProgram(),
 //                                                      mTexture[0]->id())});
 
-    mLight = new ObjLoader(QVector3D{40,25,5}, mShaderProgram[1]->getProgram(), mTexture[0]->id(),
+    mLight = new ObjLoader(QVector3D{100,35,25}, mShaderProgram[1]->getProgram(), mTexture[0]->id(),
     "../2VSIM101Mappe/assets/sun.obj");
     mMap.insert(std::pair<std::string, VisualObject*>{"light", mLight});
 
     mCoordRead = new CoordRead("../2VSIM101Mappe/Terrains/Steian_2.txt", mShaderProgram[2]->getProgram(), mTexture[1]->id(), QVector3D{0,0,0});
     mMap.insert(std::pair<std::string, VisualObject*>{"coordread", mCoordRead});
     mMap.insert(std::pair<std::string, VisualObject*>{"light", new Light(mShaderProgram[0]->getProgram(), mTexture[0]->id(), QVector3D{0,0,0})});
-
-//    CoordRead* cRead = static_cast<CoordRead*>(mMap["coordread"]);
-//    mMap.insert(std::pair<std::string, VisualObject*>{"Planes", new Planes(3, cRead->lXMax, cRead->lZMax, 2, 2,
-//                                                      mShaderProgram[0]->getProgram(), mTexture[0]->id())});
 
     for (auto it = mMap.begin(); it != mMap.end(); it++)
     {
@@ -130,8 +124,8 @@ void RenderWindow::init()
     mCamera->SetCameraPosition(glm::vec3(0, 10, 10));
     mCamera->SetFar(300);
 
-    mCamera->SetCameraPosition({85,35,20});
-    mCamera->SetCameraDirection(180.f, -35.f);
+    mCamera->SetCameraPosition({20,80,70});
+    mCamera->SetCameraDirection(-40.f, -50.f);
 
     for (auto it=mQuadTree.begin(); it!=mQuadTree.end(); it++)
     {
@@ -315,8 +309,6 @@ void RenderWindow::render()
             mGBalls[i]->bSplineCuretimer+=deltaTime;
            if(mGBalls[i]->bSplineCuretimer>0.3)
             {
-
-//               std::cout<<"\n this ball has bein updated once and trying again";
                 mGBalls[i]->bSplineCuretimer=0.f;
                 mGBalls[i]->mBSplineCure->update(mGBalls[i]->getGlmPos3D());
                 mGBalls[i]->mBSplineCure->init(mMMatrixUniform0);
@@ -342,8 +334,6 @@ void RenderWindow::render()
                                 it++;
                             }
                         }
-
-
                         if(mBSplineCurves[it]==mGBalls[i]->mBSplineCure)
                         {
                             mGBalls[i]->mBSplineCure=nullptr;
@@ -353,8 +343,6 @@ void RenderWindow::render()
                     }
                     mGBalls.erase(mGBalls.begin()+i);
                 }
-
-
     }
     timer2 = timer1;
 }
@@ -594,27 +582,39 @@ void RenderWindow::inputCheck(float dt)
     }
     if(mKeyInputMap[Qt::Key_5])
     {
-        mCamera->SetCameraPosition({85,35,20});
-        mCamera->SetCameraDirection(180.f, -35.f);
+        mCamera->SetCameraPosition({20,80,70});
+        mCamera->SetCameraDirection(-40.f, -50.f);
     }
 
     if(mKeyInputMap[Qt::Key_6])
+    {
+        mCamera->SetCameraPosition({135,5,75});
+        mCamera->SetCameraDirection(-140.f, 0.f);
+    }
+
+    if(mKeyInputMap[Qt::Key_7])
+    {
+        mCamera->SetCameraPosition({100,40,-3});
+        mCamera->SetCameraDirection(-260.f, -35.f);
+    }
+
+    if(mKeyInputMap[Qt::Key_8])
+    {
+        if(mCoordRead)
+        {
+            mCoordRead->init(mMMatrixUniform0);
+            mCoordRead->mShaderNum = mShaderProgram[0]->getProgram();
+//            mCoordRead->mTexId = mTexture[0]->id();
+        }
+    }
+
+    if(mKeyInputMap[Qt::Key_9])
     {
         if(auto it = mMap.find("coordread"); it != mMap.end())
         {
             mCoordRead->init(mMMatrixUniform2);
             mCoordRead->mShaderNum = mShaderProgram[2]->getProgram();
             mCoordRead->mTexId = mTexture[1]->id();
-        }
-    }
-
-    if(mKeyInputMap[Qt::Key_7])
-    {
-        if(mCoordRead)
-        {
-            mCoordRead->init(mMMatrixUniform0);
-            mCoordRead->mShaderNum = mShaderProgram[0]->getProgram();
-            mCoordRead->mTexId = mTexture[0]->id();
         }
     }
 
@@ -857,7 +857,7 @@ void RenderWindow::spawnRain()
 {
     std::string rainName = BallNameGenerator(mGBalls);
     QVector2D rainPosXZ = GetRandomPosXZ();
-    GravitasjonsBall* gravPtr = new GravitasjonsBall(2,{rainPosXZ.x(),30,rainPosXZ.y()});
+    GravitasjonsBall* gravPtr = new GravitasjonsBall(2,{rainPosXZ.x(),45,rainPosXZ.y()});
     mMap.insert(std::pair<std::string, VisualObject*>{rainName,gravPtr});
     mQuadTree.insert(mMap[rainName]->getPosition2D(), rainName, mMap[rainName]);
     mMap[rainName]->init(mMMatrixUniform0);

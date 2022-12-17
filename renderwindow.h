@@ -81,6 +81,7 @@ public:
     void defeatCondition();
     bool inDebug = true;
     bool bRainIsOn{false};
+    CoordRead* mCoordRead;
 
     void DrawDebugPoint(std::string name, glm::vec3 pt);
     static RenderWindow* Get();
@@ -98,7 +99,6 @@ private:
     BSplineCurve* mBSplineC;
     float SplineTime{0};
     glm::vec3 SplineChangeVec{0,0,0};
-    CoordRead* mCoordRead;
     float rainDelay{0.0};
     float rainDelayCurrent{0};
 

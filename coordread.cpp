@@ -15,7 +15,7 @@ CoordRead::CoordRead(std::string fileName, GLuint shaderNum, GLuint id, QVector3
 //    pointInsert();
 //    averageCalc();
 //    writeAverage("../2VSIM101Mappe/squareAverageSteian_2_5_10.txt");
-    readAverage("../2VSIM101Mappe/squareAverageSteian_2_9_5.txt");
+    readAverage("../2VSIM101Mappe/squareAverageSteian_2_5_10.txt");
     createMidGrid(step);
 }
 
@@ -531,15 +531,17 @@ void CoordRead::draw()
     glBindVertexArray( mVAO );
     glUniformMatrix4fv( mMatrixUniform, 1, GL_FALSE, mMatrix.constData());
 
-    if(renderArray == true)
+    if (bRender == true)
     {
-        glDrawArrays(GL_POINTS, 0, mVertices.size());
+        if(renderArray == true)
+        {
+            glDrawArrays(GL_POINTS, 0, mVertices.size());
+        }
+        else
+        {
+            glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));
+        }
     }
-    else
-    {
-        glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<const void*>(0));
-    }
-
 }
 
 GLuint CoordRead::getTexId()
